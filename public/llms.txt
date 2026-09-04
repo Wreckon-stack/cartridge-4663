@@ -1,0 +1,31 @@
+# CARTRIDGE 4663
+
+> An independent memecoin project on Robinhood Chain whose token is paired against the GME stock token. It is NOT GameStop stock and grants no shares, dividends, voting rights or ownership.
+
+This site is a single long-form page. It presents a deliberately maximalist retro-arcade
+theme over a small set of factual, independently verifiable claims about a token pairing.
+
+## Key facts
+
+- Network: Robinhood Chain mainnet, chain ID 4663 (0x1237)
+- Quote asset: the GME stock token at 0x1b0E319c6A659F002271B69dB8A7df2F911c153E
+  ("GameStop • Robinhood Token", symbol GME, 18 decimals) — issued by a third party, not by this project
+- Launch venue: Pons V2 launch factory at 0x7eD598BcEf8bd9Edd8C97A195C6d13f40801EC7e
+- Graduation threshold for a GME-quoted launch: 369 GME (read live from the factory)
+- The project's own token is NOT DEPLOYED at the time of writing; the site renders a
+  clearly-marked pre-launch state and shows NO SIGNAL for every unavailable metric.
+
+## Important
+
+- The project token is not a security and is not GameStop equity.
+- This project is not affiliated with, endorsed by or sponsored by GameStop, Robinhood,
+  Nintendo, or any other company referenced on the page.
+- Prices shown describe a token pool. They are not official exchange quotes for GameStop shares.
+- Nothing on the site is financial advice, and no return or outcome is promised.
+
+## Sources
+
+- [Robinhood Chain network configuration](https://docs.robinhood.com/chain/connecting)
+- [Robinhood Chain stock tokens](https://docs.robinhood.com/chain/stock-tokens/)
+- [GME stock token contract](https://robinhoodchain.blockscout.com/address/0x1b0E319c6A659F002271B69dB8A7df2F911c153E)
+- [PonsV2LaunchFactory verified source](https://robinhoodchain.blockscout.com/address/0x7eD598BcEf8bd9Edd8C97A195C6d13f40801EC7e)

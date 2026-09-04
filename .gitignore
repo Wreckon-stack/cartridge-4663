@@ -1,0 +1,14 @@
+node_modules
+dist
+coverage
+.DS_Store
+*.local
+.env
+.env.*
+!.env.example
+playwright-report
+test-results
+.playwright-mcp
+*.tsbuildinfo
+.vercel
+.env*

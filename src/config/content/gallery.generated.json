@@ -1,0 +1,92 @@
+[
+  {
+    "id": "found-in-a-dead-mall",
+    "src": "/art/poster-found-in-a-dead-mall.svg",
+    "title": "FOUND IN A DEAD MALL",
+    "kicker": "EXHIBIT 01",
+    "alt": "Bootleg cartridge cover reading FOUND IN A DEAD MALL, with a hooded pixel figure holding a cartridge.",
+    "width": 320,
+    "height": 400
+  },
+  {
+    "id": "no-publisher",
+    "src": "/art/poster-no-publisher.svg",
+    "title": "NO PUBLISHER",
+    "kicker": "UNLICENSED",
+    "alt": "Cover reading NO PUBLISHER with a corrupted save-file glyph.",
+    "width": 320,
+    "height": 400
+  },
+  {
+    "id": "market-boss",
+    "src": "/art/poster-market-boss.svg",
+    "title": "MARKET BOSS",
+    "kicker": "FINAL LEVEL",
+    "alt": "Cover reading MARKET BOSS showing a suited figure whose head is a candlestick chart.",
+    "width": 320,
+    "height": 400
+  },
+  {
+    "id": "insert-coin",
+    "src": "/art/poster-insert-coin.svg",
+    "title": "INSERT COIN",
+    "kicker": "PLAYER ONE",
+    "alt": "Cover reading INSERT COIN with a large pixel coin.",
+    "width": 320,
+    "height": 400
+  },
+  {
+    "id": "quote-asset",
+    "src": "/art/poster-quote-asset.svg",
+    "title": "QUOTED IN GME",
+    "kicker": "PAIR ONLINE",
+    "alt": "Cover reading QUOTED IN GME with a small cartridge.",
+    "width": 320,
+    "height": 400
+  },
+  {
+    "id": "attendant",
+    "src": "/art/poster-attendant.svg",
+    "title": "THE ATTENDANT",
+    "kicker": "WITNESS",
+    "alt": "Cover reading THE ATTENDANT showing a striped arcade referee.",
+    "width": 320,
+    "height": 400
+  },
+  {
+    "id": "threshold-369",
+    "src": "/art/poster-threshold-369.svg",
+    "title": "369 TO CLEAR",
+    "kicker": "GRADUATION",
+    "alt": "Cover reading 369 TO CLEAR, referencing the graduation threshold.",
+    "width": 320,
+    "height": 400
+  },
+  {
+    "id": "not-a-share",
+    "src": "/art/poster-not-a-share.svg",
+    "title": "NOT A SHARE",
+    "kicker": "READ THIS",
+    "alt": "Cover reading NOT A SHARE, a reminder that the token is not equity.",
+    "width": 320,
+    "height": 400
+  },
+  {
+    "id": "chain-4663",
+    "src": "/art/poster-chain-4663.svg",
+    "title": "CHAIN 4663",
+    "kicker": "ROBINHOOD",
+    "alt": "Cover reading CHAIN 4663 with a cartridge motif.",
+    "width": 320,
+    "height": 400
+  },
+  {
+    "id": "no-game-over",
+    "src": "/art/poster-no-game-over.svg",
+    "title": "NO GAME OVER",
+    "kicker": "CONTINUE?",
+    "alt": "Cover reading NO GAME OVER with a pixel figure.",
+    "width": 320,
+    "height": 400
+  }
+]

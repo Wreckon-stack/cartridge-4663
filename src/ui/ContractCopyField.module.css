@@ -1,0 +1,92 @@
+.field {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: stretch;
+  gap: var(--space-2);
+  min-inline-size: 0;
+}
+
+.label {
+  flex: 1 0 100%;
+  font-family: var(--font-pixel);
+  font-size: 9px;
+  letter-spacing: 0.08em;
+  color: var(--ink-secondary);
+  text-transform: uppercase;
+}
+
+/*
+ * The address itself. Rendered in full and allowed to wrap — never truncated,
+ * because a shortened address is precisely what address-spoofing relies on.
+ */
+.value {
+  flex: 1 1 22ch;
+  min-inline-size: 0;
+  padding: var(--space-2) var(--space-3);
+  background: #07070d;
+  border: 2px solid #2f2f4a;
+  color: var(--ink-primary);
+  font-family: var(--font-data);
+  font-size: 12px;
+  line-height: 1.5;
+  overflow-wrap: anywhere;
+  user-select: all;   /* one click selects the whole address */
+}
+
+.value[data-empty='true'] {
+  color: var(--ink-muted);
+  border-style: dashed;
+  user-select: auto;
+}
+
+.copy {
+  flex: 0 0 auto;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  min-block-size: var(--tap-min);
+  min-inline-size: var(--tap-min);
+  padding-inline: var(--space-3);
+  background: var(--coin);
+  color: #120f00;
+  border: 2px solid #000;
+  box-shadow: 0 3px 0 0 #8a7c00, 0 3px 0 2px #000;
+  font-family: var(--font-pixel);
+  font-size: 9px;
+  letter-spacing: 0.06em;
+  cursor: pointer;
+}
+.copy:hover { filter: brightness(1.1); }
+.copy:active { transform: translateY(3px); box-shadow: 0 0 0 0 #8a7c00, 0 0 0 2px #000; }
+.copy:disabled {
+  background: #3a3a4c;
+  color: #a8a8bd;
+  box-shadow: 0 3px 0 0 #22222e, 0 3px 0 2px #000;
+  cursor: not-allowed;
+}
+
+.copy[data-done='true'] { background: var(--acid); color: #04170a; box-shadow: 0 3px 0 0 #1d8a0a, 0 3px 0 2px #000; }
+.copy[data-done='error'] { background: var(--danger); color: #1a0004; box-shadow: 0 3px 0 0 #8d0f1c, 0 3px 0 2px #000; }
+
+.explorer {
+  flex: 0 0 auto;
+  display: inline-flex;
+  align-items: center;
+  min-block-size: var(--tap-min);
+  padding-inline: var(--space-3);
+  border: 2px solid var(--cyan);
+  color: var(--cyan);
+  background: #04121a;
+  font-family: var(--font-pixel);
+  font-size: 9px;
+  text-decoration: none;
+}
+.explorer:hover { background: #072230; }
+
+.note {
+  flex: 1 0 100%;
+  font-family: var(--font-data);
+  font-size: 11px;
+  color: var(--ink-muted);
+}

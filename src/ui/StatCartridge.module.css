@@ -1,0 +1,120 @@
+/*
+ * A market metric styled as a game cartridge sitting in a shelf slot.
+ *
+ * Discipline (this is the part that keeps the dashboard readable):
+ *   - the VALUE always renders in --ink-primary, never a neon hue;
+ *   - neon appears only on the label chip and the cartridge spine;
+ *   - digits are tabular so a ticking value never reflows its neighbours.
+ */
+.cart {
+  --spine: var(--cyan);
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  min-inline-size: 0;
+  padding: var(--space-4) var(--space-4) var(--space-4) var(--space-5);
+  background: linear-gradient(180deg, var(--surface-2) 0%, var(--surface-1) 100%);
+  border: 3px solid #000;
+  box-shadow:
+    inset 2px 2px 0 0 #2c2c44,
+    inset -2px -2px 0 0 #07070d,
+    4px 4px 0 0 rgb(0 0 0 / 0.6);
+}
+
+/* The coloured spine down the left edge — the cartridge label strip. */
+.cart::before {
+  content: '';
+  position: absolute;
+  inset-block: 6px;
+  inset-inline-start: 6px;
+  inline-size: 6px;
+  background: var(--spine);
+  box-shadow: 0 0 8px color-mix(in srgb, var(--spine) 70%, transparent);
+}
+
+/* Ridged top edge, like the grip on a real cartridge shell. */
+.cart::after {
+  content: '';
+  position: absolute;
+  inset-block-start: 0;
+  inset-inline: 22px 10px;
+  block-size: 5px;
+  background: repeating-linear-gradient(90deg, #000 0 3px, transparent 3px 7px);
+  opacity: 0.6;
+}
+
+.cart[data-spine='cyan']    { --spine: var(--cyan); }
+.cart[data-spine='magenta'] { --spine: var(--magenta); }
+.cart[data-spine='acid']    { --spine: var(--acid); }
+.cart[data-spine='coin']    { --spine: var(--coin); }
+.cart[data-spine='cart']    { --spine: var(--cartridge); }
+
+.head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-2);
+  flex-wrap: wrap;
+}
+
+.label {
+  font-family: var(--font-pixel);
+  font-size: 9px;
+  letter-spacing: 0.08em;
+  /* Label sits in secondary ink, not the spine colour — see note above. */
+  color: var(--ink-secondary);
+  text-transform: uppercase;
+}
+
+.value {
+  font-family: var(--font-data);
+  font-weight: 600;
+  font-size: var(--step-2);
+  line-height: 1.1;
+  color: var(--ink-primary);
+  font-variant-numeric: tabular-nums;
+  overflow-wrap: anywhere;
+}
+
+/* A value we do not have is visibly absent, never a zero. */
+.value[data-empty='true'] {
+  color: var(--ink-muted);
+  font-size: var(--step-1);
+}
+
+.sub {
+  font-family: var(--font-data);
+  font-size: 11px;
+  color: var(--ink-muted);
+  font-variant-numeric: tabular-nums;
+}
+
+/* Change indicator: arrow glyph + sign + colour, never colour alone. */
+.delta {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-family: var(--font-data);
+  font-weight: 600;
+  font-size: var(--step--1);
+  font-variant-numeric: tabular-nums;
+}
+.delta[data-dir='up']      { color: var(--status-live); }
+.delta[data-dir='down']    { color: var(--status-error); }
+.delta[data-dir='flat']    { color: var(--ink-secondary); }
+.delta[data-dir='unknown'] { color: var(--ink-muted); }
+
+/* Loading slot: an empty shelf position, not a shimmering grey box. */
+.skeleton {
+  block-size: 1.9em;
+  background:
+    repeating-linear-gradient(90deg, #1c1c2b 0 10px, #14141f 10px 20px);
+  border: 2px dashed #33334d;
+  display: grid;
+  place-items: center;
+  font-family: var(--font-pixel);
+  font-size: 9px;
+  color: var(--ink-muted);
+  letter-spacing: 0.1em;
+}

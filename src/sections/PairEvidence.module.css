@@ -1,0 +1,133 @@
+.board {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(320px, 100%), 1fr));
+  gap: var(--space-4);
+}
+
+/* One row of the evidence board. */
+.row {
+  --edge: #2f2f4a;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  padding: var(--space-4);
+  background: var(--surface-1);
+  border: 3px solid var(--edge);
+  border-left-width: 8px;
+  min-inline-size: 0;
+}
+.row[data-status='VERIFIED']     { --edge: var(--status-live); }
+.row[data-status='PENDING']      { --edge: var(--status-pending); }
+.row[data-status='UNCONFIGURED'] { --edge: var(--status-idle); }
+.row[data-status='MISMATCH']     { --edge: var(--status-error); }
+
+.rowHead {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-2);
+  flex-wrap: wrap;
+}
+
+.label {
+  font-family: var(--font-pixel);
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  color: var(--ink-secondary);
+}
+
+/* The status stamp. Glyph + word, so never colour alone. */
+.stamp {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 3px 8px;
+  border: 2px solid var(--edge);
+  color: var(--edge);
+  background: #07070d;
+  font-family: var(--font-data);
+  font-weight: 600;
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  white-space: nowrap;
+}
+
+.value {
+  font-family: var(--font-data);
+  font-size: 13px;
+  color: var(--ink-primary);
+  overflow-wrap: anywhere;
+  padding: var(--space-2);
+  background: #07070d;
+  border: 1px solid #2f2f4a;
+}
+.value[data-empty='true'] { color: var(--ink-muted); border-style: dashed; }
+
+.detail { font-family: var(--font-data); font-size: 12px; color: var(--ink-secondary); }
+
+/* Standalone link, not inline prose — so it takes the full tap minimum. */
+.sourceLink {
+  display: inline-flex;
+  align-items: center;
+  min-block-size: var(--tap-min);
+  font-family: var(--font-data);
+  font-size: 11px;
+  color: var(--cyan);
+  overflow-wrap: anywhere;
+}
+
+/* Live readout panel above the board. */
+.livePanel {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(210px, 100%), 1fr));
+  gap: var(--space-3);
+  margin-block-end: var(--space-5);
+  padding: var(--space-4);
+  background: var(--surface-2);
+  border: 3px solid var(--acid);
+  box-shadow: 6px 6px 0 0 rgb(0 0 0 / 0.7);
+}
+
+.liveHead {
+  grid-column: 1 / -1;
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-3);
+  align-items: center;
+  justify-content: space-between;
+}
+
+.liveTitle {
+  font-family: var(--font-pixel);
+  font-size: clamp(0.65rem, 1.8vw, 0.9rem);
+  color: var(--acid);
+  text-shadow: 2px 2px 0 #000;
+}
+
+.fact { display: flex; flex-direction: column; gap: 4px; min-inline-size: 0; }
+.factKey { font-family: var(--font-pixel); font-size: 8px; letter-spacing: 0.1em; color: var(--ink-muted); }
+.factVal {
+  font-family: var(--font-data);
+  font-weight: 600;
+  font-size: var(--step-1);
+  color: var(--ink-primary);
+  font-variant-numeric: tabular-nums;
+  overflow-wrap: anywhere;
+}
+.factSub { font-family: var(--font-data); font-size: 11px; color: var(--ink-muted); }
+
+.contracts {
+  display: grid;
+  gap: var(--space-4);
+  margin-block-start: var(--space-5);
+  padding: var(--space-4);
+  background: var(--surface-1);
+  border: 3px dashed #2f2f4a;
+}
+
+.updated {
+  margin-block-start: var(--space-4);
+  font-family: var(--font-data);
+  font-size: 11px;
+  color: var(--ink-muted);
+}

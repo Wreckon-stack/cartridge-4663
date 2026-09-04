@@ -1,0 +1,111 @@
+.curtain {
+  position: fixed;
+  inset: 0;
+  z-index: var(--z-boot);
+  display: grid;
+  place-items: center;
+  padding: var(--gutter);
+  background: var(--void);
+  overflow-y: auto;
+}
+
+/* The POST readout behind the dialog. */
+.post {
+  position: absolute;
+  inset-block-start: clamp(var(--space-4), 6vh, var(--space-8));
+  inset-inline-start: clamp(var(--space-4), 5vw, var(--space-8));
+  inline-size: min(560px, calc(100% - var(--gutter) * 2));
+  font-family: var(--font-terminal);
+  font-size: clamp(1rem, 3.4vw, 1.35rem);
+  line-height: 1.35;
+  color: var(--acid);
+  text-shadow: 0 0 6px color-mix(in srgb, var(--acid) 60%, transparent);
+  pointer-events: none;
+}
+
+.postLine { display: flex; gap: 0.6ch; white-space: nowrap; }
+.postLabel { flex: 0 0 auto; }
+.postDots { flex: 1 1 auto; overflow: hidden; color: #1c6b12; }
+.postResult { flex: 0 0 auto; }
+.postResult[data-tone='warn'] { color: var(--coin); }
+.postResult[data-tone='bad'] { color: var(--status-error); }
+
+.cursor {
+  display: inline-block;
+  inline-size: 0.6ch;
+  background: var(--acid);
+  animation: blink-hard calc(1s / max(var(--fx), 0.0001)) steps(1, end) infinite;
+}
+
+/* The dialog itself. */
+.dialogWrap {
+  position: relative;
+  z-index: 2;
+  inline-size: min(620px, 100%);
+  animation: pop-in var(--dur-base) var(--ease-snap) both;
+}
+
+.headline {
+  font-family: var(--font-pixel);
+  font-size: clamp(0.9rem, 3.6vw, 1.5rem);
+  line-height: 1.7;
+  text-align: center;
+  color: var(--coin);
+  /* Hard offset shadow — the arcade title-screen look. */
+  text-shadow:
+    3px 3px 0 #000,
+    -1px -1px 0 var(--danger);
+  margin-block: var(--space-3) var(--space-5);
+}
+
+.question {
+  font-family: var(--font-data);
+  font-size: var(--step-1);
+  text-align: center;
+  color: var(--ink-primary);
+  margin-block-end: var(--space-2);
+}
+
+.subQuestion {
+  font-family: var(--font-data);
+  font-size: 12px;
+  text-align: center;
+  color: var(--ink-muted);
+  max-inline-size: 46ch;
+  margin-inline: auto;
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-3);
+  justify-content: center;
+  padding: var(--space-5) var(--space-4) var(--space-3);
+  margin-block-start: var(--space-5);
+  background: #dcdcd0;
+  border-block-start: 3px solid #000;
+}
+
+.actionNote {
+  flex: 1 0 100%;
+  text-align: center;
+  font-family: var(--font-data);
+  font-size: 11px;
+  color: #3a3a33;
+}
+
+/* Marquee of nonsense along the bottom of the curtain. */
+.bootTicker {
+  position: absolute;
+  inset-block-end: 0;
+  inset-inline: 0;
+  z-index: 1;
+}
+
+@media (max-width: 640px) {
+  /* On small screens the POST readout would collide with the dialog, so it
+     becomes a short header above it instead of a background layer. */
+  .curtain { align-content: start; padding-block-start: 22vh; }
+  .post { inset-block-start: var(--space-4); font-size: 0.95rem; }
+  .postLine:nth-child(n + 5) { display: none; }
+}

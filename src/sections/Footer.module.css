@@ -1,0 +1,71 @@
+.footer {
+  position: relative;
+  z-index: var(--z-content);
+  padding-block: var(--space-7) var(--space-6);
+  background: #050509;
+  border-block-start: 4px solid var(--crt-blue);
+}
+
+.top {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(240px, 100%), 1fr));
+  gap: var(--space-5);
+  padding-block-end: var(--space-5);
+  border-block-end: 1px dashed #2a2a44;
+}
+
+.brand { display: flex; gap: var(--space-3); align-items: flex-start; min-inline-size: 0; }
+.mark { inline-size: 56px; block-size: 56px; flex: none; image-rendering: pixelated; }
+.brandName { font-family: var(--font-pixel); font-size: 12px; color: var(--coin); line-height: 1.7; }
+.brandTag { font-family: var(--font-data); font-size: 11px; color: var(--ink-muted); margin-block-start: 6px; }
+
+.colTitle {
+  font-family: var(--font-pixel);
+  font-size: 9px;
+  letter-spacing: 0.1em;
+  color: var(--ink-secondary);
+  margin-block-end: var(--space-3);
+}
+
+.linkList { display: flex; flex-direction: column; gap: 2px; }
+
+.link {
+  display: inline-flex;
+  align-items: center;
+  min-block-size: var(--tap-min);
+  color: var(--cyan);
+  font-family: var(--font-data);
+  font-size: 12px;
+  overflow-wrap: anywhere;
+}
+.link[aria-disabled='true'] { color: var(--ink-muted); text-decoration: line-through; cursor: not-allowed; }
+
+.disclosure { padding-block-start: var(--space-5); }
+
+.disclosureTitle {
+  font-family: var(--font-pixel);
+  font-size: 10px;
+  color: var(--danger);
+  margin-block-end: var(--space-3);
+}
+
+.disclosureBody { max-inline-size: 92ch; }
+.disclosureBody p {
+  font-family: var(--font-data);
+  font-size: 12px;
+  line-height: 1.65;
+  color: var(--ink-secondary);
+}
+.disclosureBody p + p { margin-block-start: var(--space-3); }
+
+.colophon {
+  margin-block-start: var(--space-5);
+  padding-block-start: var(--space-4);
+  border-block-start: 1px dashed #2a2a44;
+  font-family: var(--font-data);
+  font-size: 11px;
+  color: var(--ink-muted);
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2) var(--space-4);
+}

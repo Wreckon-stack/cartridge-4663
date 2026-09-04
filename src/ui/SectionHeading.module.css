@@ -1,0 +1,47 @@
+.head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  gap: var(--space-3) var(--space-4);
+  margin-block-end: var(--space-5);
+  padding-block-end: var(--space-3);
+  border-block-end: 3px solid var(--accent, var(--cyan));
+}
+
+.stage {
+  flex: none;
+  padding: 4px 10px;
+  background: var(--accent, var(--cyan));
+  color: var(--void);
+  font-family: var(--font-pixel);
+  font-size: 9px;
+  letter-spacing: 0.1em;
+  border: 2px solid #000;
+  align-self: flex-start;
+}
+
+.title {
+  flex: 1 1 14ch;
+  margin: 0;
+  font-family: var(--font-poster);
+  font-size: var(--step-4);
+  line-height: 0.9;
+  text-transform: uppercase;
+  color: var(--ink-primary);
+  text-shadow: 3px 3px 0 #000, 5px 5px 0 var(--accent, var(--cyan));
+  overflow-wrap: anywhere;
+}
+
+.blurb {
+  flex: 1 1 28ch;
+  max-inline-size: var(--measure);
+  font-family: var(--font-data);
+  font-size: var(--step-0);
+  color: var(--ink-secondary);
+}
+
+.head[data-accent='magenta'] { --accent: var(--magenta); }
+.head[data-accent='acid']    { --accent: var(--acid); }
+.head[data-accent='coin']    { --accent: var(--coin); }
+.head[data-accent='cart']    { --accent: var(--cartridge); }
+.head[data-accent='danger']  { --accent: var(--danger); }

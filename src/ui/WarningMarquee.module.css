@@ -1,0 +1,82 @@
+.bar {
+  --bar-bg: var(--danger);
+  --bar-ink: #fff;
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  /* Tall enough to contain a full 44px pause control at every viewport, so the
+     real element box is the tap target rather than an invisible pseudo. */
+  min-block-size: 52px;
+  background: var(--bar-bg);
+  color: var(--bar-ink);
+  border-block: 3px solid #000;
+  /* Hazard stripes behind the text. */
+  background-image: repeating-linear-gradient(
+    -45deg,
+    rgb(0 0 0 / 0.24) 0 12px,
+    transparent 12px 24px
+  );
+}
+
+.bar[data-tone='coin']  { --bar-bg: var(--coin);      --bar-ink: #140f00; }
+.bar[data-tone='acid']  { --bar-bg: var(--acid);      --bar-ink: #04170a; }
+.bar[data-tone='cyan']  { --bar-bg: var(--cyan);      --bar-ink: #001416; }
+.bar[data-tone='cart']  { --bar-bg: var(--cartridge); --bar-ink: #1a0c00; }
+.bar[data-tone='blue']  { --bar-bg: var(--crt-blue);  --bar-ink: #fff; }
+
+.viewport {
+  display: flex;
+  inline-size: max-content;
+  animation: marquee-left var(--dur-marquee) linear infinite;
+  will-change: transform;
+}
+
+.bar:hover .viewport,
+.bar:focus-within .viewport,
+.bar[data-paused='true'] .viewport {
+  animation-play-state: paused;
+}
+
+.run {
+  display: flex;
+  align-items: center;
+  gap: var(--space-5);
+  padding-block: var(--space-2);
+  padding-inline-end: var(--space-5);
+  font-family: var(--font-pixel);
+  font-size: 11px;
+  letter-spacing: 0.06em;
+  white-space: nowrap;
+  text-shadow: 1px 1px 0 rgb(0 0 0 / 0.35);
+}
+
+.sep { opacity: 0.65; }
+
+/* Pause control sits on top of the bar; small but with a padded hit area. */
+.pause {
+  position: absolute;
+  inset-block-start: 50%;
+  inset-inline-end: var(--space-2);
+  transform: translateY(-50%);
+  z-index: 2;
+  display: grid;
+  place-items: center;
+  min-inline-size: var(--tap-min);
+  min-block-size: var(--tap-min);
+  background: #000;
+  color: #fff;
+  border: 2px solid currentColor;
+  font-family: var(--font-data);
+  font-size: 11px;
+  line-height: 1;
+  cursor: pointer;
+}
+.pause:hover { background: #1c1c2c; }
+
+
+/* Under REDUCE FX the strip stops moving and simply wraps its content. */
+:global(html.fx-reduced) .viewport,
+:global(html:not(.fx-full)) .viewport {
+  animation: none;
+}

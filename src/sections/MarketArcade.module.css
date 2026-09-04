@@ -1,0 +1,101 @@
+/* The cabinet frame that wraps the whole dashboard. */
+.cabinet {
+  position: relative;
+  padding: var(--space-4);
+  background: linear-gradient(180deg, #14141f 0%, #0b0b14 100%);
+  border: var(--border-chunky) solid #000;
+  box-shadow:
+    inset 0 0 0 3px var(--crt-blue),
+    inset 0 0 40px rgb(7 27 255 / 0.25),
+    10px 10px 0 0 rgb(0 0 0 / 0.7);
+}
+
+/* Marquee header along the top of the cabinet. */
+.marquee {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3);
+  margin: calc(var(--space-4) * -1) calc(var(--space-4) * -1) var(--space-4);
+  padding: var(--space-3) var(--space-4);
+  background: linear-gradient(90deg, var(--magenta), var(--crt-blue) 60%, var(--cyan));
+  border-block-end: 4px solid #000;
+}
+
+.marqueeTitle {
+  font-family: var(--font-pixel);
+  font-size: clamp(0.7rem, 2vw, 1rem);
+  color: #fff;
+  text-shadow: 2px 2px 0 rgb(0 0 0 / 0.85);
+}
+
+.sourceRow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2) var(--space-3);
+  align-items: center;
+  margin-block-end: var(--space-4);
+  padding: var(--space-2) var(--space-3);
+  background: #07070d;
+  border: 2px solid #2f2f4a;
+  font-family: var(--font-data);
+  font-size: 11px;
+  color: var(--ink-muted);
+}
+.sourceRow strong { color: var(--ink-secondary); font-weight: 600; }
+
+/*
+ * Six tiles. auto-fit produced a 5 + 1 row at desktop widths, which looked
+ * broken; an explicit 3 x 2 reads as a deliberate dashboard.
+ */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--space-3);
+}
+
+@media (max-width: 980px) {
+  .grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+
+@media (max-width: 560px) {
+  .grid { grid-template-columns: 1fr; }
+}
+
+.gaugeWrap {
+  margin-block-start: var(--space-4);
+  padding: var(--space-4);
+  background: #07070d;
+  border: 3px solid #2f2f4a;
+}
+
+.gaugeNote {
+  margin-block-start: var(--space-3);
+  font-family: var(--font-data);
+  font-size: 11px;
+  color: var(--ink-muted);
+  max-inline-size: var(--measure);
+}
+
+/* Honest error strip. Funny, but it states exactly what happened. */
+.errorStrip {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2) var(--space-3);
+  align-items: baseline;
+  margin-block-end: var(--space-4);
+  padding: var(--space-3);
+  background: repeating-linear-gradient(-45deg, #1f0004 0 14px, #29000a 14px 28px);
+  border: 3px solid var(--status-error);
+}
+.errorTitle { font-family: var(--font-pixel); font-size: 10px; color: var(--status-error); }
+.errorBody { font-family: var(--font-data); font-size: 12px; color: var(--ink-primary); }
+
+/* Side gauges — the cabinet's edge-mounted meters. */
+.rails {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(240px, 100%), 1fr));
+  gap: var(--space-4);
+  margin-block-start: var(--space-4);
+}

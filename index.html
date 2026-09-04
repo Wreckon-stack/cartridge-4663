@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+
+    <title>%SITE_TITLE%</title>
+    <meta name="description" content="%SITE_DESCRIPTION%" />
+    <link rel="canonical" href="%SITE_URL%/" />
+
+    <meta name="theme-color" content="#030303" />
+    <meta name="color-scheme" content="dark" />
+
+    <!--
+      Content Security Policy.
+
+      The site loads NOTHING from a third party: fonts are self-hosted, all
+      artwork is local SVG, and audio is synthesised at runtime. The only
+      outbound connection is to the configured JSON-RPC endpoint, so
+      connect-src is the one directive that needs widening in deployment.
+
+      'unsafe-inline' on style-src is required because the app sets a handful of
+      inline style attributes for deterministic scatter positions. Script has no
+      such allowance.
+
+      TWO DIRECTIVES ARE DELIBERATELY ABSENT and belong in the production HTTP
+      response header instead (see docs/SECURITY_NOTES.md for the exact header):
+
+        frame-ancestors           browsers ignore it in a <meta> CSP and log a
+                                  console error for trying.
+        upgrade-insecure-requests it rewrites every subresource to https://.
+                                  Chromium exempts localhost; WebKit does not,
+                                  so shipping it in the meta tag made the entire
+                                  site fail to load over plain http — including
+                                  `vite preview` and any non-TLS staging host.
+    -->
+    <meta
+      http-equiv="Content-Security-Policy"
+      content="default-src 'self';
+               script-src 'self';
+               style-src 'self' 'unsafe-inline';
+               img-src 'self' data:;
+               font-src 'self';
+               media-src 'none';
+               object-src 'none';
+               base-uri 'self';
+               form-action 'none';
+               connect-src 'self' https://rpc.mainnet.chain.robinhood.com https://*.g.alchemy.com"
+    />
+    <meta name="referrer" content="strict-origin-when-cross-origin" />
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="%SITE_NAME%" />
+    <meta property="og:title" content="%SITE_TITLE%" />
+    <meta property="og:description" content="%SITE_DESCRIPTION%" />
+    <meta property="og:url" content="%SITE_URL%/" />
+    <meta property="og:image" content="%SITE_URL%/social-card.png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta
+      property="og:image:alt"
+      content="CARTRIDGE 4663 in pixel lettering beside an orange game cartridge, over a neon grid. A green bar reads PAIRED WITH THE GME STOCK TOKEN, and a line below reads NOT GAMESTOP STOCK. NOT AFFILIATED."
+    />
+
+    <!-- X / Twitter -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="%SITE_TITLE%" />
+    <meta name="twitter:description" content="%SITE_DESCRIPTION%" />
+    <meta name="twitter:image" content="%SITE_URL%/social-card.png" />
+
+    <link rel="icon" href="/art/logo-mark.svg" type="image/svg+xml" />
+    <link rel="icon" href="/favicon-32.png" sizes="32x32" type="image/png" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <link rel="manifest" href="/site.webmanifest" />
+
+    <!-- Only the two faces used above the fold are preloaded. -->
+    <link rel="preload" href="/fonts/press-start-2p-400.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="/fonts/anton-400.woff2" as="font" type="font/woff2" crossorigin />
+  </head>
+  <body>
+    <div id="root"></div>
+    <noscript>
+      <div style="padding: 2rem; font-family: monospace; color: #f4f0dd; background: #030303">
+        <h1>%SITE_NAME%</h1>
+        <p>
+          This site needs JavaScript to read live on-chain data. The essentials without it: an
+          independent memecoin project whose token is paired against the GME stock token
+          (0x1b0E319c6A659F002271B69dB8A7df2F911c153E) on Robinhood Chain, chain ID 4663.
+        </p>
+        <p><strong>It is not GameStop stock and grants no shares, dividends, or ownership.</strong></p>
+        <p>
+          It is not affiliated with, endorsed by or sponsored by GameStop, Robinhood, or any other
+          company. Crypto assets are volatile and may lose all of their value.
+        </p>
+      </div>
+    </noscript>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>

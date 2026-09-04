@@ -1,0 +1,237 @@
+/* ═══════════════════════════════════════════════════════════════════════════
+   CARTRIDGE 4663 — DESIGN TOKENS
+   See docs/DESIGN_SYSTEM.md for the rules these encode.
+
+   The governing idea: the DECORATION is allowed to be lawless, the
+   INFORMATION is not. Two parallel colour scales exist for that reason —
+   `--neon-*` for scenery, `--ink-*` for anything a person has to read.
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+/* ── Self-hosted type. No third-party font requests, so the CSP can stay tight. */
+@font-face {
+  font-family: 'Press Start 2P';
+  src: url('/fonts/press-start-2p-400.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+  /* Latin subset only. */
+  unicode-range: U+0000-00FF, U+2000-206F, U+2190-21BB, U+2600-26FF;
+}
+@font-face {
+  font-family: 'VT323';
+  src: url('/fonts/vt323-400.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Anton';
+  src: url('/fonts/anton-400.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+/*
+ * Metric-matched fallbacks for Anton.
+ *
+ * Anton averages 0.416em per uppercase character. The system fallbacks are far
+ * wider — Arial Narrow 1.24x, Helvetica/Arial 1.52x — which made the hero
+ * wordmark wrap and drop its last letter during the font-swap window or if the
+ * webfont failed to load. `size-adjust` scales each fallback so it occupies
+ * Anton's width, so the layout does not reflow when the real font arrives.
+ *
+ * Percentages are measured, not guessed: 0.416 / 0.5149 = 81%, 0.416 / 0.6324 = 66%.
+ */
+@font-face {
+  font-family: 'Anton Fallback Narrow';
+  src: local('Arial Narrow');
+  size-adjust: 81%;
+  font-weight: 400;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'Anton Fallback Sans';
+  src: local('Helvetica'), local('Arial'), local('Liberation Sans');
+  size-adjust: 66%;
+  font-weight: 400;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'IBM Plex Mono';
+  src: url('/fonts/ibm-plex-mono-400.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'IBM Plex Mono';
+  src: url('/fonts/ibm-plex-mono-600.woff2') format('woff2');
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+
+:root {
+  /* ── Raw palette ──────────────────────────────────────────────────────── */
+  --void: #030303;
+  --void-2: #0a0a12;
+  --void-3: #12121f;
+
+  --crt-blue: #071bff;
+  --cyan: #00f5ff;
+  --magenta: #ff00d4;
+  --acid: #39ff14;
+  --danger: #ff2134;
+  --coin: #ffe600;
+  --cartridge: #ff6a00;
+  --paper: #f4f0dd;
+
+  /* ── Semantic: scenery. Saturated, allowed to clash, never load-bearing. */
+  --neon-1: var(--cyan);
+  --neon-2: var(--magenta);
+  --neon-3: var(--acid);
+  --neon-4: var(--coin);
+  --neon-5: var(--cartridge);
+  --neon-6: var(--crt-blue);
+
+  /* ── Semantic: information. Contrast-checked against --surface-*. ─────── */
+  /* Ratios below are measured, not estimated — `node scripts/check-contrast.mjs`
+     prints the whole grid. Values are against --surface-0; the worst surface in
+     the system (--surface-3) is ~20% lower and still passes AA for all three. */
+  --ink-primary: var(--paper); /* 18.03:1 on --surface-0, 14.53:1 on --surface-3 */
+  --ink-secondary: #b9b6a6; /* 10.12:1 on --surface-0,  8.16:1 on --surface-3 */
+  --ink-muted: #8a8878; /*  5.77:1 on --surface-0,  4.65:1 on --surface-3 — floor for body text */
+  --ink-inverse: var(--void);
+
+  /* --crt-blue is 2.56:1 on black: it is a STRUCTURAL colour only (title bars,
+     fills, borders) and must never carry text. Use --blue-ink for blue type. */
+  --blue-ink: #7c88ff; /* 6.70:1 on --surface-0 */
+
+  /* Status colours. Each is paired with an icon + text label in the UI so
+     colour is never the sole carrier of meaning. */
+  --status-live: var(--acid);
+  --status-stale: var(--coin);
+  --status-error: #ff5b6a; /* lightened from --danger: 6.83:1 on --surface-0 */
+  --status-idle: var(--ink-muted);
+  --status-pending: var(--cyan);
+
+  /* ── Surfaces ─────────────────────────────────────────────────────────── */
+  --surface-0: var(--void);
+  --surface-1: #0b0b14;
+  --surface-2: #14141f;
+  --surface-3: #1d1d2b;
+  --surface-window: #101018;
+  --surface-titlebar: linear-gradient(90deg, #0a1cc9 0%, #071bff 45%, #4b2bff 100%);
+  --surface-paper: var(--paper);
+
+  /* ── Type ─────────────────────────────────────────────────────────────── */
+  --font-pixel: 'Press Start 2P', 'Courier New', monospace;
+  --font-terminal: 'VT323', 'Courier New', monospace;
+  --font-poster: 'Anton', 'Anton Fallback Narrow', 'Anton Fallback Sans', sans-serif;
+  --font-data: 'IBM Plex Mono', ui-monospace, 'SF Mono', Menlo, monospace;
+  /* Deliberate early-web ugliness. System stack: nothing to download. */
+  --font-ugly: 'Times New Roman', Times, serif;
+
+  /* Fluid scale. Pixel type needs a tighter ceiling than poster type because
+     Press Start 2P has an enormous apparent size for its em. */
+  --step--1: clamp(0.6875rem, 0.66rem + 0.14vw, 0.75rem);
+  --step-0: clamp(0.8125rem, 0.78rem + 0.17vw, 0.9375rem);
+  --step-1: clamp(1rem, 0.94rem + 0.3vw, 1.25rem);
+  --step-2: clamp(1.25rem, 1.13rem + 0.6vw, 1.75rem);
+  --step-3: clamp(1.5rem, 1.24rem + 1.3vw, 2.5rem);
+  --step-4: clamp(2rem, 1.5rem + 2.5vw, 4rem);
+  --step-5: clamp(2.5rem, 1.4rem + 5.5vw, 7rem);
+  --step-6: clamp(3rem, 0.8rem + 11vw, 12rem);
+
+  /* ── Space ────────────────────────────────────────────────────────────── */
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-5: 1.5rem;
+  --space-6: 2rem;
+  --space-7: 3rem;
+  --space-8: 4rem;
+  --space-9: 6rem;
+
+  /* ── Structure ────────────────────────────────────────────────────────── */
+  --measure: 68ch;
+  --page-max: 1440px;
+  --gutter: clamp(0.75rem, 3vw, 2.5rem);
+  --radius-0: 0;
+  --radius-1: 2px;
+  --border-pixel: 3px;
+  --border-chunky: 5px;
+
+  /* Minimum interactive target. Enforced on every control. */
+  --tap-min: 44px;
+
+  /* ── Motion. All durations funnel through these so REDUCE FX can zero them. */
+  --fx: 1; /* master multiplier: 1 = full, 0 = reduced */
+  --dur-instant: calc(90ms * var(--fx));
+  --dur-fast: calc(180ms * var(--fx));
+  --dur-base: calc(320ms * var(--fx));
+  --dur-slow: calc(700ms * var(--fx));
+  --dur-marquee: calc(26s / max(var(--fx), 0.0001));
+  --dur-conveyor: calc(64s / max(var(--fx), 0.0001));
+  --dur-drift: calc(22s / max(var(--fx), 0.0001));
+  --ease-snap: cubic-bezier(0.2, 0.9, 0.25, 1);
+  --ease-chunk: steps(6, end);
+
+  /* ── Glow. Used heavily; kept as tokens so REDUCE FX can flatten them. */
+  --glow-sm: 0 0 4px currentColor;
+  --glow-md:
+    0 0 6px currentColor, 0 0 18px color-mix(in srgb, currentColor 55%, transparent);
+  --glow-lg:
+    0 0 8px currentColor, 0 0 26px color-mix(in srgb, currentColor 60%, transparent),
+    0 0 60px color-mix(in srgb, currentColor 30%, transparent);
+
+  --z-background: 0;
+  --z-content: 10;
+  --z-floaters: 20;
+  --z-crt: 60;
+  --z-nav: 70;
+  --z-dialog: 90;
+  --z-boot: 100;
+
+  color-scheme: dark;
+}
+
+/* ═══ REDUCE FX ═══════════════════════════════════════════════════════════
+   One class on <html> collapses every animation and glow. Because all
+   durations derive from --fx, nothing needs to know it has been switched off.
+   Applied when the user asks for it OR when the OS asks and they have not
+   overridden it (see src/lib/prefs.ts). */
+html.fx-reduced {
+  --fx: 0;
+  --glow-sm: none;
+  --glow-md: none;
+  --glow-lg: none;
+}
+
+html.fx-reduced *,
+html.fx-reduced *::before,
+html.fx-reduced *::after {
+  animation-duration: 0.001ms !important;
+  animation-iteration-count: 1 !important;
+  transition-duration: 0.001ms !important;
+  scroll-behavior: auto !important;
+}
+
+/* The OS preference applies on its own until the user overrides it in-page. */
+@media (prefers-reduced-motion: reduce) {
+  html:not(.fx-full) {
+    --fx: 0;
+    --glow-sm: none;
+    --glow-md: none;
+    --glow-lg: none;
+  }
+  html:not(.fx-full) *,
+  html:not(.fx-full) *::before,
+  html:not(.fx-full) *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
+}

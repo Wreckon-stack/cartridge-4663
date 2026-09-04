@@ -1,0 +1,203 @@
+.header {
+  position: sticky;
+  inset-block-start: 0;
+  z-index: var(--z-nav);
+  /* Near-opaque. At 92% the page content behind the strip bled through far
+     enough to make the nav labels hard to read while scrolling. */
+  background: color-mix(in srgb, var(--void) 98%, transparent);
+  backdrop-filter: blur(6px);
+  border-block-end: 3px solid var(--crt-blue);
+}
+
+/* ── The messy desktop link strip ──────────────────────────────────────── */
+.strip {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 0 var(--space-2);
+  padding: var(--space-2) var(--gutter);
+}
+
+.link {
+  --accent: var(--cyan);
+  display: inline-flex;
+  align-items: center;
+  /* Full tap minimum even on desktop — the strip wraps to two rows anyway, so
+     there is no layout cost, and it keeps one rule for every control. */
+  min-block-size: var(--tap-min);
+  padding-inline: var(--space-2);
+  color: var(--accent);
+  font-family: var(--font-ugly);
+  font-size: clamp(0.9rem, 1.4vw, 1.05rem);
+  font-weight: 700;
+  letter-spacing: 0.01em;
+  text-decoration: underline;
+  text-decoration-thickness: 2px;
+  text-underline-offset: 3px;
+  white-space: nowrap;
+  text-shadow: var(--glow-sm);
+}
+.link:hover { background: var(--accent); color: var(--void); text-shadow: none; }
+
+.link[data-accent='cyan']    { --accent: var(--cyan); }
+.link[data-accent='magenta'] { --accent: var(--magenta); }
+.link[data-accent='acid']    { --accent: var(--acid); }
+.link[data-accent='coin']    { --accent: var(--coin); }
+.link[data-accent='cart']    { --accent: var(--cartridge); }
+.link[data-accent='paper']   { --accent: var(--paper); }
+
+/* Little cartridge glyph between links. */
+.sep {
+  flex: none;
+  inline-size: 12px;
+  block-size: 12px;
+  opacity: 0.8;
+}
+
+.controls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-2) var(--gutter) var(--space-3);
+  border-block-start: 1px dashed #2a2a44;
+}
+
+/* ── Mobile ────────────────────────────────────────────────────────────── */
+.mobileBar {
+  display: none;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3);
+  padding: var(--space-2) var(--gutter);
+}
+
+.brandChip {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  min-inline-size: 0;
+}
+
+.brandMark { inline-size: 28px; block-size: 28px; flex: none; image-rendering: pixelated; }
+
+.brandText {
+  font-family: var(--font-pixel);
+  font-size: 10px;
+  color: var(--coin);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.menuBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  min-block-size: var(--tap-min);
+  min-inline-size: var(--tap-min);
+  padding-inline: var(--space-3);
+  background: var(--coin);
+  color: #120f00;
+  border: 3px solid #000;
+  box-shadow: 0 4px 0 0 #8a7c00, 0 4px 0 3px #000;
+  font-family: var(--font-pixel);
+  font-size: 10px;
+  flex: none;
+}
+.menuBtn:active { transform: translateY(4px); box-shadow: 0 0 0 0 #8a7c00, 0 0 0 3px #000; }
+
+/* Drawer, presented as a game pause menu. */
+.drawer {
+  position: fixed;
+  inset: 0;
+  z-index: var(--z-dialog);
+  display: grid;
+  grid-template-rows: auto 1fr;
+  background: var(--void);
+  padding: var(--space-4) var(--gutter) var(--space-6);
+  overflow-y: auto;
+}
+
+.drawerHead {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3);
+  padding-block-end: var(--space-4);
+  border-block-end: 3px solid var(--magenta);
+}
+
+.drawerTitle {
+  font-family: var(--font-pixel);
+  font-size: var(--step-0);
+  color: var(--magenta);
+}
+
+.drawerList {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  padding-block-start: var(--space-4);
+}
+
+.drawerLink {
+  --accent: var(--cyan);
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  min-block-size: var(--tap-min);
+  padding: var(--space-3);
+  background: var(--surface-1);
+  border: 2px solid var(--accent);
+  color: var(--ink-primary);
+  font-family: var(--font-pixel);
+  font-size: 11px;
+  text-decoration: none;
+}
+.drawerLink[data-accent='cyan']    { --accent: var(--cyan); }
+.drawerLink[data-accent='magenta'] { --accent: var(--magenta); }
+.drawerLink[data-accent='acid']    { --accent: var(--acid); }
+.drawerLink[data-accent='coin']    { --accent: var(--coin); }
+.drawerLink[data-accent='cart']    { --accent: var(--cartridge); }
+.drawerLink[data-accent='paper']   { --accent: var(--paper); }
+
+/* The selection caret, like a game menu cursor. */
+.drawerLink::before {
+  content: '▶';
+  color: var(--accent);
+  opacity: 0;
+}
+.drawerLink:hover::before,
+.drawerLink:focus-visible::before { opacity: 1; }
+
+.drawerControls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  padding-block-start: var(--space-5);
+  margin-block-start: var(--space-4);
+  border-block-start: 1px dashed #2a2a44;
+}
+
+.mobileToggles { display: flex; gap: 6px; flex: none; margin-inline-start: auto; }
+
+/*
+ * Compact form for the bar: LED plus a short word. The state word is dropped
+ * to save space — the LED colour, aria-pressed and the visually-hidden
+ * description all still carry it, so nothing is lost to assistive tech.
+ */
+.compactToggle { padding-inline: var(--space-2); font-size: 8px; }
+.compactToggle > :nth-child(3) { display: none; }
+
+@media (max-width: 900px) {
+  .strip, .controls { display: none; }
+  .mobileBar { display: flex; }
+}
+
+@media (max-width: 400px) {
+  /* Below this the brand name gives way rather than the controls. */
+  .brandText { display: none; }
+}

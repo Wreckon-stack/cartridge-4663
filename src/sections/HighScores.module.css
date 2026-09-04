@@ -1,0 +1,74 @@
+.board {
+  padding: var(--space-4);
+  background: #07070d;
+  border: var(--border-chunky) solid var(--acid);
+  box-shadow: 10px 10px 0 0 rgb(0 0 0 / 0.7), inset 0 0 40px rgb(57 255 20 / 0.08);
+}
+
+.boardTitle {
+  font-family: var(--font-pixel);
+  font-size: clamp(0.75rem, 2.4vw, 1.15rem);
+  text-align: center;
+  color: var(--acid);
+  text-shadow: 3px 3px 0 #000;
+  margin-block-end: var(--space-5);
+  animation: alert-pulse calc(2.4s / max(var(--fx), 0.0001)) ease-in-out infinite;
+}
+
+.table { inline-size: 100%; border-collapse: collapse; font-family: var(--font-data); }
+
+.table caption {
+  font-family: var(--font-data);
+  font-size: 12px;
+  color: var(--ink-muted);
+  text-align: start;
+  padding-block-end: var(--space-3);
+}
+
+.table th {
+  text-align: start;
+  padding: var(--space-2) var(--space-3);
+  border-block-end: 3px solid var(--acid);
+  font-family: var(--font-pixel);
+  font-size: 9px;
+  letter-spacing: 0.08em;
+  color: var(--acid);
+}
+.table th:last-child { text-align: end; }
+
+.table td {
+  padding: var(--space-3);
+  border-block-end: 1px dashed #1f3a18;
+  font-size: 13px;
+  color: var(--ink-primary);
+  vertical-align: top;
+}
+.table td:last-child { text-align: end; font-weight: 600; font-variant-numeric: tabular-nums; }
+
+.rank { font-family: var(--font-pixel); font-size: 11px; color: var(--coin); }
+
+.note { display: block; font-size: 11px; color: var(--ink-muted); margin-block-start: 3px; }
+
+.noScore { color: var(--ink-muted); font-weight: 400; }
+
+.foot {
+  margin-block-start: var(--space-4);
+  font-family: var(--font-data);
+  font-size: 11px;
+  color: var(--ink-muted);
+  max-inline-size: var(--measure);
+}
+
+/* Mobile: the table becomes stacked cards rather than a squeezed grid. */
+@media (max-width: 620px) {
+  .table thead { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); }
+  .table tr {
+    display: grid;
+    gap: 4px;
+    padding: var(--space-3);
+    margin-block-end: var(--space-3);
+    border: 2px solid #1f3a18;
+  }
+  .table td { border: 0; padding: 0; }
+  .table td:last-child { text-align: start; font-size: var(--step-1); }
+}

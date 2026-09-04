@@ -1,0 +1,152 @@
+/*
+ * A 1998-desktop window that never quite belonged to any real OS.
+ * Chunky outset bevel, gradient title bar, chrome buttons that are real
+ * <button>s when they do something and inert <span>s when they are decoration.
+ */
+.window {
+  --chrome: var(--crt-blue);
+  position: relative;
+  background: var(--surface-window);
+  border: 2px solid #000;
+  box-shadow:
+    inset -2px -2px 0 0 #05050a,
+    inset 2px 2px 0 0 #3c3c58,
+    0 0 0 2px #000,
+    6px 6px 0 0 rgb(0 0 0 / 0.75);
+  color: var(--ink-primary);
+  min-width: 0;
+}
+
+.window[data-tone='alert'] {
+  --chrome: var(--danger);
+}
+.window[data-tone='money'] {
+  --chrome: #0a7a2f;
+}
+.window[data-tone='cart'] {
+  --chrome: var(--cartridge);
+}
+.window[data-tone='void'] {
+  --chrome: #2a2a44;
+}
+
+.titlebar {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: 5px 5px 5px 8px;
+  background: linear-gradient(
+    90deg,
+    color-mix(in srgb, var(--chrome) 78%, #000) 0%,
+    var(--chrome) 45%,
+    color-mix(in srgb, var(--chrome) 70%, #7b3cff) 100%
+  );
+  border-bottom: 2px solid #000;
+  min-height: 30px;
+}
+
+.titleIcon {
+  flex: none;
+  width: 16px;
+  height: 16px;
+  image-rendering: pixelated;
+}
+
+.title {
+  flex: 1 1 auto;
+  min-width: 0;
+  font-family: var(--font-data);
+  font-weight: 600;
+  font-size: var(--step--1);
+  letter-spacing: 0.03em;
+  color: #fff;
+  text-shadow: 1px 1px 0 rgb(0 0 0 / 0.85);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.chromeGroup {
+  display: flex;
+  gap: 3px;
+  flex: none;
+}
+
+/* Shared look for both the real button and the decorative squares. */
+.chromeBtn {
+  display: grid;
+  place-items: center;
+  inline-size: 22px;
+  block-size: 20px;
+  background: #cfcfc4;
+  border: 1px solid #000;
+  box-shadow:
+    inset -1px -1px 0 0 #6e6e66,
+    inset 1px 1px 0 0 #fff;
+  color: #000;
+  font-family: var(--font-data);
+  font-weight: 600;
+  font-size: 11px;
+  line-height: 1;
+}
+
+button.chromeBtn {
+  cursor: pointer;
+}
+button.chromeBtn:hover {
+  background: #e8e8dc;
+}
+button.chromeBtn:active {
+  box-shadow:
+    inset 1px 1px 0 0 #6e6e66,
+    inset -1px -1px 0 0 #fff;
+  transform: translate(1px, 1px);
+}
+
+/*
+ * The chrome buttons are 22x20 — below the 44px tap minimum. Rather than
+ * inflating the visual chrome (which would wreck the period look), we extend
+ * the hit area with a pseudo-element.
+ */
+button.chromeBtn::after {
+  content: '';
+  position: absolute;
+  inset-block-start: 0;
+  inset-inline-end: 0;
+  inline-size: var(--tap-min);
+  block-size: var(--tap-min);
+  transform: translate(6px, -6px);
+}
+
+.body {
+  padding: var(--space-4);
+  min-width: 0;
+}
+
+.window[data-flush='true'] .body {
+  padding: 0;
+}
+
+/* An optional status strip along the bottom, like a real window. */
+.statusbar {
+  display: flex;
+  gap: var(--space-3);
+  align-items: center;
+  padding: 3px 8px;
+  border-top: 2px solid #000;
+  background: #16162a;
+  font-family: var(--font-data);
+  font-size: 11px;
+  color: var(--ink-secondary);
+  box-shadow: inset 1px 1px 0 0 #2e2e4a;
+}
+
+.statusbarCell {
+  padding-inline: 6px;
+  border: 1px solid #000;
+  box-shadow: inset 1px 1px 0 0 #2e2e4a;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}

@@ -1,0 +1,100 @@
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(290px, 100%), 1fr));
+  gap: var(--space-4);
+}
+
+.card {
+  --edge: var(--cyan);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  padding: var(--space-4);
+  background: var(--surface-1);
+  border: 3px solid var(--edge);
+  box-shadow: 5px 5px 0 0 rgb(0 0 0 / 0.7);
+  min-inline-size: 0;
+}
+.card[data-status='ON RECORD'] { --edge: var(--coin); }
+.card[data-status='EMPTY'] {
+  --edge: #2f2f4a;
+  border-style: dashed;
+  background: repeating-linear-gradient(-45deg, #0b0b14 0 12px, #0f0f1a 12px 24px);
+  box-shadow: none;
+  min-block-size: 190px;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+
+.head {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  align-items: center;
+  justify-content: space-between;
+}
+
+.ref {
+  font-family: var(--font-data);
+  font-weight: 600;
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  color: var(--edge);
+}
+
+.stamp {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 2px 7px;
+  border: 2px solid var(--edge);
+  color: var(--edge);
+  font-family: var(--font-data);
+  font-weight: 600;
+  font-size: 9px;
+  letter-spacing: 0.08em;
+  /* Rubber-stamped on at an angle. */
+  transform: rotate(-3deg);
+}
+
+.title {
+  font-family: var(--font-poster);
+  font-size: var(--step-2);
+  line-height: 1;
+  text-transform: uppercase;
+  color: var(--ink-primary);
+  overflow-wrap: anywhere;
+}
+
+.date { font-family: var(--font-data); font-size: 11px; color: var(--ink-muted); }
+
+.body { font-family: var(--font-data); font-size: 13px; line-height: 1.6; color: var(--ink-secondary); }
+
+.thumb {
+  inline-size: 100%;
+  block-size: auto;
+  max-block-size: 220px;
+  object-fit: contain;
+  background: #07070d;
+  border: 2px solid #2f2f4a;
+  padding: var(--space-2);
+}
+
+.source {
+  display: inline-flex;
+  align-items: center;
+  min-block-size: var(--tap-min);
+  font-family: var(--font-data);
+  font-size: 11px;
+  color: var(--cyan);
+  overflow-wrap: anywhere;
+}
+
+.emptyMark {
+  font-family: var(--font-pixel);
+  font-size: 10px;
+  line-height: 1.9;
+  color: var(--ink-muted);
+}
+.emptyNote { font-family: var(--font-data); font-size: 11px; color: #5c5c70; max-inline-size: 26ch; }

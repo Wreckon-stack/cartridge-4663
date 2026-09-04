@@ -1,0 +1,73 @@
+/*
+ * Segmented progress meter — a life bar / power meter.
+ *
+ * Segments rather than a smooth fill: it reads as a game HUD, and it also
+ * stops the bar implying more precision than the underlying number has.
+ */
+.wrap { display: flex; flex-direction: column; gap: var(--space-2); min-inline-size: 0; }
+
+.head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--space-3);
+  flex-wrap: wrap;
+}
+
+.label {
+  font-family: var(--font-pixel);
+  font-size: 9px;
+  letter-spacing: 0.08em;
+  color: var(--ink-secondary);
+  text-transform: uppercase;
+}
+
+.readout {
+  font-family: var(--font-data);
+  font-weight: 600;
+  font-size: var(--step--1);
+  color: var(--ink-primary);
+  font-variant-numeric: tabular-nums;
+}
+
+.track {
+  display: flex;
+  gap: 2px;            /* the 2px surface gap between segments */
+  padding: 3px;
+  background: #07070d;
+  border: 2px solid #000;
+  box-shadow: inset 1px 1px 0 0 #2a2a40;
+  block-size: 20px;
+}
+
+.seg {
+  flex: 1 1 0;
+  min-inline-size: 2px;
+  background: #191926;
+  transition: background-color var(--dur-base) var(--ease-snap);
+}
+
+/* Filled segments run a cool->hot ramp so the bar reads at a glance. */
+.seg[data-on='true'] { background: var(--acid); }
+.seg[data-on='true'][data-zone='mid']  { background: var(--coin); }
+.seg[data-on='true'][data-zone='high'] { background: var(--cartridge); }
+
+/* Leading segment blinks slowly to show the meter is live. */
+.seg[data-lead='true'] {
+  animation: alert-pulse calc(1.4s / max(var(--fx), 0.0001)) ease-in-out infinite;
+}
+
+.foot {
+  display: flex;
+  justify-content: space-between;
+  gap: var(--space-3);
+  font-family: var(--font-data);
+  font-size: 10px;
+  color: var(--ink-muted);
+  font-variant-numeric: tabular-nums;
+}
+
+/* Unknown progress: the whole track is hatched, and no segments light. */
+.track[data-unknown='true'] {
+  background-image: repeating-linear-gradient(-45deg, #14141f 0 6px, #0b0b14 6px 12px);
+}

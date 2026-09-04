@@ -1,0 +1,113 @@
+.grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 0.8fr) minmax(0, 1fr);
+  gap: var(--space-4);
+  align-items: stretch;
+}
+
+.column { display: flex; flex-direction: column; gap: var(--space-3); min-inline-size: 0; }
+
+.card {
+  --edge: var(--cyan);
+  flex: 1 1 auto;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  padding: var(--space-4);
+  background: var(--surface-1);
+  border: 3px solid var(--edge);
+  box-shadow: 6px 6px 0 0 rgb(0 0 0 / 0.7);
+  min-inline-size: 0;
+}
+.card[data-side='p2'] { --edge: var(--magenta); }
+.card[data-side='mid'] { --edge: var(--coin); background: var(--surface-2); }
+
+.role {
+  font-family: var(--font-pixel);
+  font-size: 9px;
+  letter-spacing: 0.1em;
+  color: var(--edge);
+}
+
+.ticker {
+  font-family: var(--font-poster);
+  font-size: var(--step-4);
+  line-height: 0.9;
+  color: var(--ink-primary);
+  overflow-wrap: anywhere;
+}
+
+.subtitle {
+  font-family: var(--font-data);
+  font-size: 12px;
+  color: var(--ink-muted);
+  overflow-wrap: anywhere;
+}
+
+.sprite {
+  align-self: center;
+  inline-size: clamp(72px, 16vw, 128px);
+  image-rendering: pixelated;
+  filter: drop-shadow(4px 4px 0 rgb(0 0 0 / 0.8));
+}
+
+.statList { display: flex; flex-direction: column; gap: 6px; }
+
+.stat {
+  display: flex;
+  justify-content: space-between;
+  gap: var(--space-3);
+  padding-block: 4px;
+  border-block-end: 1px dashed #2f2f4a;
+  font-family: var(--font-data);
+  font-size: 12px;
+}
+.statKey { color: var(--ink-muted); }
+.statVal { color: var(--ink-primary); font-weight: 600; text-align: end; overflow-wrap: anywhere; }
+
+/* The central witness column. */
+.witness { text-align: center; }
+
+.witnessQuote {
+  font-family: var(--font-ugly);
+  font-size: var(--step-1);
+  font-style: italic;
+  line-height: 1.45;
+  color: var(--paper);
+}
+
+.witnessAttrib {
+  font-family: var(--font-data);
+  font-size: 11px;
+  color: var(--ink-muted);
+}
+
+/* The hard disclosure panel under the three columns. */
+.notice {
+  margin-block-start: var(--space-5);
+  padding: var(--space-4);
+  background: repeating-linear-gradient(-45deg, #1f0004 0 16px, #29000a 16px 32px);
+  border: 3px solid var(--danger);
+}
+
+.noticeTitle {
+  font-family: var(--font-pixel);
+  font-size: clamp(0.65rem, 2vw, 0.9rem);
+  line-height: 1.7;
+  color: var(--danger);
+  text-shadow: 2px 2px 0 #000;
+  margin-block-end: var(--space-3);
+}
+
+.noticeBody {
+  font-family: var(--font-data);
+  font-size: var(--step-0);
+  color: var(--ink-primary);
+  max-inline-size: var(--measure);
+}
+
+@media (max-width: 900px) {
+  /* Deliberate story order on mobile: our token, then the referee explaining
+     the relationship, then the asset it is quoted in. */
+  .grid { grid-template-columns: 1fr; }
+}

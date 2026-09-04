@@ -1,0 +1,75 @@
+.scene {
+  position: fixed;
+  inset: 0;
+  z-index: var(--z-background);
+  pointer-events: none;
+  overflow: hidden;
+  background:
+    radial-gradient(120% 80% at 50% 110%, #0d0033 0%, transparent 60%),
+    linear-gradient(180deg, #030303 0%, #05050f 55%, #0a0020 100%);
+}
+
+.canvas {
+  position: absolute;
+  inset: 0;
+  inline-size: 100%;
+  block-size: 100%;
+}
+
+/* Arcade skyline pinned to the bottom edge. */
+.skyline {
+  position: absolute;
+  inset-block-end: 0;
+  inset-inline: 0;
+  block-size: min(38vh, 340px);
+  inline-size: 100%;
+  object-fit: cover;
+  object-position: bottom;
+  opacity: 0.55;
+}
+
+/* ── Floating decoration ───────────────────────────────────────────────── */
+.floaters {
+  position: absolute;
+  inset: 0;
+  /* Decorative layer: it may never contribute to document scroll width. */
+  overflow: hidden;
+}
+
+.floater {
+  position: absolute;
+  image-rendering: pixelated;
+  opacity: 0.5;
+  animation: drift-y var(--dur-drift) ease-in-out infinite;
+  will-change: transform;
+}
+
+.coinFall {
+  position: absolute;
+  inset-block-start: 0;
+  image-rendering: pixelated;
+  opacity: 0.45;
+  animation: coin-fall linear infinite;
+  will-change: transform;
+}
+
+/* Under REDUCE FX everything holds still. The scene stays — it is the set
+   dressing — but nothing moves and nothing glows. */
+:global(html.fx-reduced) .floater,
+:global(html.fx-reduced) .coinFall,
+:global(html:not(.fx-full)) .floater,
+:global(html:not(.fx-full)) .coinFall {
+  animation: none;
+}
+
+:global(html.fx-reduced) .coinFall,
+:global(html:not(.fx-full)) .coinFall {
+  display: none;
+}
+
+/* Fewer moving parts on small screens — both for legibility and battery. */
+@media (max-width: 700px) {
+  .floater:nth-child(n + 4) { display: none; }
+  .coinFall:nth-child(n + 5) { display: none; }
+  .skyline { opacity: 0.4; }
+}

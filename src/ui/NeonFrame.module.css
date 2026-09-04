@@ -1,0 +1,62 @@
+/*
+ * Mismatched neon outline. Two offset rings in clashing hues, deliberately
+ * not concentric, so framed content looks like a badly-registered print job.
+ */
+.frame {
+  --ring-a: var(--cyan);
+  --ring-b: var(--magenta);
+  position: relative;
+  padding: var(--space-1);
+  isolation: isolate;
+}
+
+.frame::before,
+.frame::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: -1;
+}
+
+.frame::before {
+  border: var(--border-pixel) solid var(--ring-a);
+  color: var(--ring-a);
+  box-shadow: var(--glow-md);
+}
+
+/* Second ring is offset by a couple of pixels — the misregistration. */
+.frame::after {
+  border: 2px solid var(--ring-b);
+  color: var(--ring-b);
+  transform: translate(4px, 4px);
+  box-shadow: var(--glow-sm);
+  opacity: 0.85;
+}
+
+.frame[data-pair='cyan-magenta'] { --ring-a: var(--cyan);      --ring-b: var(--magenta); }
+.frame[data-pair='acid-blue']    { --ring-a: var(--acid);      --ring-b: var(--crt-blue); }
+.frame[data-pair='coin-cart']    { --ring-a: var(--coin);      --ring-b: var(--cartridge); }
+.frame[data-pair='danger-coin']  { --ring-a: var(--danger);    --ring-b: var(--coin); }
+.frame[data-pair='cart-cyan']    { --ring-a: var(--cartridge); --ring-b: var(--cyan); }
+
+/* Single clean ring, for anything holding real data. */
+.frame[data-pair='quiet']::after { display: none; }
+.frame[data-pair='quiet']::before { border-color: #2f2f4a; box-shadow: none; color: #2f2f4a; }
+
+.frame[data-inset='true'] { padding: var(--space-4); }
+
+/* Corner rivets — four tiny squares, pure decoration. */
+.rivet {
+  position: absolute;
+  inline-size: 7px;
+  block-size: 7px;
+  background: var(--coin);
+  border: 1px solid #000;
+  z-index: 1;
+  pointer-events: none;
+}
+.rivet[data-corner='tl'] { inset-block-start: -4px; inset-inline-start: -4px; }
+.rivet[data-corner='tr'] { inset-block-start: -4px; inset-inline-end: -4px; }
+.rivet[data-corner='bl'] { inset-block-end: -4px; inset-inline-start: -4px; }
+.rivet[data-corner='br'] { inset-block-end: -4px; inset-inline-end: -4px; }

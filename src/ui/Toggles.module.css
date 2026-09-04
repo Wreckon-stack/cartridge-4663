@@ -1,0 +1,51 @@
+/*
+ * SOUND and REDUCE FX. Styled as arcade cabinet toggle switches: a hard-edged
+ * plate with an LED and a state word. Both are always visible in the nav.
+ */
+.toggle {
+  --led: var(--status-idle);
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  min-block-size: var(--tap-min);
+  padding: var(--space-2) var(--space-3);
+  background: #12121d;
+  border: 2px solid #3a3a58;
+  box-shadow: inset 1px 1px 0 0 #4a4a6e, inset -1px -1px 0 0 #06060c;
+  color: var(--ink-primary);
+  font-family: var(--font-pixel);
+  font-size: 9px;
+  letter-spacing: 0.06em;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: border-color var(--dur-fast) var(--ease-snap);
+}
+
+.toggle:hover { border-color: var(--coin); }
+
+.toggle[data-on='true'] { --led: var(--acid); border-color: color-mix(in srgb, var(--acid) 55%, #3a3a58); }
+.toggle[data-on='false'] { --led: #4a4a5e; }
+.toggle[data-variant='fx'][data-on='true'] { --led: var(--coin); border-color: color-mix(in srgb, var(--coin) 55%, #3a3a58); }
+
+/* The LED. Its lit/unlit state is backed by the text label beside it, so the
+   control never depends on colour alone. */
+.led {
+  inline-size: 9px;
+  block-size: 9px;
+  flex: none;
+  background: var(--led);
+  border: 1px solid #000;
+  box-shadow: 0 0 6px var(--led);
+}
+
+.state { color: var(--ink-secondary); }
+.toggle[data-on='true'] .state { color: var(--ink-primary); }
+
+/* Blocked-audio explanation, shown when the browser refused to start sound. */
+.blocked {
+  font-family: var(--font-data);
+  font-size: 10px;
+  color: var(--status-error);
+  text-transform: none;
+  letter-spacing: 0;
+}

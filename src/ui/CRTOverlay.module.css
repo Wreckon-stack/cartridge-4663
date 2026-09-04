@@ -1,0 +1,95 @@
+/*
+ * Full-viewport CRT treatment: scanlines, aperture-grille tint, vignette,
+ * a slow rolling refresh bar and a pointer-tracked phosphor glow.
+ *
+ * All of it is pointer-events:none and aria-hidden. It sits above content but
+ * can never intercept a click or be announced.
+ */
+.overlay {
+  position: fixed;
+  inset: 0;
+  z-index: var(--z-crt);
+  pointer-events: none;
+  mix-blend-mode: normal;
+}
+
+/* Horizontal scanlines. 3px period keeps it visible without shimmering. */
+.scanlines {
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(
+    to bottom,
+    rgb(0 0 0 / 0.32) 0 1px,
+    transparent 1px 3px
+  );
+  opacity: 0.55;
+}
+
+/* RGB grille — the vertical phosphor stripes of a Trinitron. */
+.grille {
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(
+    to right,
+    rgb(255 0 0 / 0.05) 0 1px,
+    rgb(0 255 0 / 0.05) 1px 2px,
+    rgb(0 0 255 / 0.05) 2px 3px
+  );
+  opacity: 0.7;
+}
+
+/* Corner darkening + a faint barrel highlight to fake screen curvature. */
+.vignette {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(120% 100% at 50% 50%, transparent 55%, rgb(0 0 0 / 0.55) 100%),
+    radial-gradient(60% 40% at 50% 0%, rgb(255 255 255 / 0.045), transparent 70%);
+}
+
+/* Slow rolling refresh bar. ~7s sweep — nowhere near a flash hazard. */
+.roll {
+  position: absolute;
+  inset-inline: 0;
+  block-size: 22vh;
+  background: linear-gradient(
+    to bottom,
+    transparent,
+    rgb(255 255 255 / 0.035) 45%,
+    rgb(255 255 255 / 0.055) 55%,
+    transparent
+  );
+  animation: scan-sweep calc(7s / max(var(--fx), 0.0001)) linear infinite;
+}
+
+/*
+ * Phosphor bloom that follows the pointer. --mx/--my are written by
+ * CRTOverlay.tsx from a rAF-throttled pointermove, desktop only.
+ */
+.glow {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+    26rem 26rem at var(--mx, 50%) var(--my, 40%),
+    rgb(0 245 255 / 0.07),
+    transparent 68%
+  );
+  transition: background-position var(--dur-slow) linear;
+}
+
+:global(html.fx-reduced) .roll,
+:global(html:not(.fx-full)) .roll {
+  animation: none;
+  opacity: 0;
+}
+
+:global(html.fx-reduced) .glow {
+  display: none;
+}
+
+/* Coarse pointers (touch) get no cursor glow and lighter scanlines. */
+@media (pointer: coarse) {
+  .glow { display: none; }
+  .scanlines { opacity: 0.38; }
+  .grille { display: none; }
+}

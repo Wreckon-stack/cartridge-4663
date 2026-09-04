@@ -1,0 +1,14 @@
+{
+  "name": "CARTRIDGE 4663",
+  "short_name": "C4663",
+  "description": "A bootleg cartridge that boots a stock market. Paired against the GME stock token on Robinhood Chain.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#030303",
+  "theme_color": "#030303",
+  "icons": [
+    { "src": "/icon-192.png", "sizes": "192x192", "type": "image/png" },
+    { "src": "/icon-512.png", "sizes": "512x512", "type": "image/png" },
+    { "src": "/art/logo-mark.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any" }
+  ]
+}
