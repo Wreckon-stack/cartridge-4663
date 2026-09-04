@@ -54,6 +54,13 @@ Full sequence: [`docs/LAUNCH_CHECKLIST.md`](docs/LAUNCH_CHECKLIST.md).
 
 ---
 
+## 👉 Tomorrow's plan
+
+**[`TODO.md`](TODO.md)** — ordered by what blocks what, with the two answers I need from
+you first thing. Start there.
+
+---
+
 ## Open items (nothing is broken — these are decisions and inputs)
 
 ### Needs your decision
