@@ -38,7 +38,7 @@ function required(value: unknown, fallback: string): string {
  */
 export const brand = {
   /** PROJECT_NAME */
-  name: required(env.VITE_PROJECT_NAME, 'CARTRIDGE 4663'),
+  name: required(env.VITE_PROJECT_NAME, 'CARTRIDGE'),
   /** TOKEN_SYMBOL — rendered with a leading $ by the UI, so do not include one. */
   symbol: required(env.VITE_TOKEN_SYMBOL, 'CART'),
   /** Short line under the logo. */

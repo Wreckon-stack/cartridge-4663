@@ -29,7 +29,7 @@ export const NAV_ITEMS: readonly NavItem[] = [
  * at the top of NavBar's returned fragment.
  */
 export const TICKER_PHRASES: readonly string[] = [
-  'CARTRIDGE 4663 DETECTED IN AISLE SEVEN',
+  'CARTRIDGE SERIAL 4663 DETECTED IN AISLE SEVEN',
   'THIS IS NOT GAMESTOP STOCK',
   'QUOTE ASSET: GME STOCK TOKEN',
   'ROBINHOOD CHAIN · ID 4663',

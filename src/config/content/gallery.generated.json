@@ -30,8 +30,8 @@
     "id": "insert-coin",
     "src": "/art/poster-insert-coin.svg",
     "title": "INSERT COIN",
-    "kicker": "PLAYER ONE",
-    "alt": "Cover reading INSERT COIN with a large pixel coin.",
+    "kicker": "$CART",
+    "alt": "Cover reading INSERT COIN with a large pixel coin, labelled $CART.",
     "width": 320,
     "height": 400
   },

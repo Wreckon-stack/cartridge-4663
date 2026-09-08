@@ -24,6 +24,31 @@ import {
 
 const OUT = 'public/art'
 
+/*
+ * Branding, read from the same environment variables the app uses so the
+ * artwork can never drift from the site copy. Run `npm run assets` after
+ * changing either value.
+ *
+ * SERIAL is deliberately NOT the project name: 4663 is the Robinhood Chain ID,
+ * and the whole conceit is that the cartridge's serial number is the network it
+ * runs on. It stays put through a rename.
+ */
+const NAME = (process.env.VITE_PROJECT_NAME || 'CARTRIDGE').toUpperCase()
+const SYMBOL = (process.env.VITE_TOKEN_SYMBOL || 'CART').toUpperCase()
+const SERIAL = '4663'
+
+/**
+ * Largest integer pixel scale at which `text` fits inside `maxWidth`.
+ * Keeps generated lettering inside its plate no matter how the brand is renamed
+ * — the same failure the CSS wordmark fix addresses, in the asset pipeline.
+ */
+function fitScale(text, maxWidth, maxScale) {
+  for (let scale = maxScale; scale > 1; scale -= 1) {
+    if (textWidth(text) * scale <= maxWidth) return scale
+  }
+  return 1
+}
+
 const C = {
   void: '#030303',
   void2: '#0a0a12',
@@ -107,8 +132,8 @@ function cartridgeHero() {
   }
 
   // Label lettering
-  p.push(centredText('CARTRIDGE', { y: 74, scale: 3, fill: C.coin, width: W }))
-  p.push(centredText('4663', { y: 176, scale: 5, fill: C.magenta, width: W }))
+  p.push(centredText(NAME, { y: 74, scale: fitScale(NAME, W - 48, 3), fill: C.coin, width: W }))
+  p.push(centredText(SERIAL, { y: 176, scale: 5, fill: C.magenta, width: W }))
 
   // "GME LINK" sticker, rotated, over the corner
   p.push(
@@ -165,12 +190,12 @@ const POSTERS = [
   { id: 'found-in-a-dead-mall', head: ['FOUND IN A', 'DEAD MALL'], kicker: 'EXHIBIT 01', bg: C.blue, accent: C.coin, sprite: PLAYER_ONE, alt: 'Bootleg cartridge cover reading FOUND IN A DEAD MALL, with a hooded pixel figure holding a cartridge.' },
   { id: 'no-publisher', head: ['NO', 'PUBLISHER'], kicker: 'UNLICENSED', bg: C.danger, accent: C.paper, sprite: CORRUPT_SAVE, alt: 'Cover reading NO PUBLISHER with a corrupted save-file glyph.' },
   { id: 'market-boss', head: ['MARKET', 'BOSS'], kicker: 'FINAL LEVEL', bg: C.void2, accent: C.magenta, sprite: MARKET_BOSS, alt: 'Cover reading MARKET BOSS showing a suited figure whose head is a candlestick chart.' },
-  { id: 'insert-coin', head: ['INSERT', 'COIN'], kicker: 'PLAYER ONE', bg: C.magenta, accent: C.coin, sprite: COIN, alt: 'Cover reading INSERT COIN with a large pixel coin.' },
+  { id: 'insert-coin', head: ['INSERT', 'COIN'], kicker: `$${SYMBOL}`, bg: C.magenta, accent: C.coin, sprite: COIN, alt: `Cover reading INSERT COIN with a large pixel coin, labelled $${SYMBOL}.` },
   { id: 'quote-asset', head: ['QUOTED', 'IN GME'], kicker: 'PAIR ONLINE', bg: C.acid, accent: C.ink, sprite: MINI_CART, alt: 'Cover reading QUOTED IN GME with a small cartridge.' },
   { id: 'attendant', head: ['THE', 'ATTENDANT'], kicker: 'WITNESS', bg: C.cyan, accent: C.ink, sprite: ATTENDANT, alt: 'Cover reading THE ATTENDANT showing a striped arcade referee.' },
   { id: 'threshold-369', head: ['369', 'TO CLEAR'], kicker: 'GRADUATION', bg: C.cart, accent: C.void, sprite: COIN, alt: 'Cover reading 369 TO CLEAR, referencing the graduation threshold.' },
   { id: 'not-a-share', head: ['NOT A', 'SHARE'], kicker: 'READ THIS', bg: C.coin, accent: C.ink, sprite: CORRUPT_SAVE, alt: 'Cover reading NOT A SHARE, a reminder that the token is not equity.' },
-  { id: 'chain-4663', head: ['CHAIN', '4663'], kicker: 'ROBINHOOD', bg: C.blue, accent: C.cyan, sprite: MINI_CART, alt: 'Cover reading CHAIN 4663 with a cartridge motif.' },
+  { id: 'chain-4663', head: ['CHAIN', SERIAL], kicker: 'ROBINHOOD', bg: C.blue, accent: C.cyan, sprite: MINI_CART, alt: `Cover reading CHAIN ${SERIAL} with a cartridge motif.` },
   { id: 'no-game-over', head: ['NO GAME', 'OVER'], kicker: 'CONTINUE?', bg: C.void, accent: C.acid, sprite: PLAYER_ONE, alt: 'Cover reading NO GAME OVER with a pixel figure.' },
 ]
 
@@ -211,7 +236,7 @@ function poster({ head, kicker, bg, accent, sprite }) {
 
   // Footer strip
   p.push(`<rect x="16" y="${H - 44}" width="${W - 32}" height="20" fill="${C.ink}"/>`)
-  p.push(textSvg('CARTRIDGE 4663', { x: 26, y: `${H - 39}`, scale: 1.6, fill: accent }))
+  p.push(textSvg(`${NAME} · ${SERIAL}`, { x: 26, y: `${H - 39}`, scale: 1.6, fill: accent }))
   return svg(W, H, p.join(''))
 }
 
@@ -247,14 +272,15 @@ function socialCard() {
   p.push(`<rect x="20" y="42" width="160" height="120" fill="${C.void}" stroke="${C.cyan}" stroke-width="3"/>`)
   // Keep the lettering inside the 160-wide label plate: 4 glyphs at 6 cells
   // advance = 23 cells, so scale 5.5 -> 126px starting at x=46.
-  p.push(textSvg('4663', { x: 46, y: 80, scale: 5.5, fill: C.coin }))
+  p.push(textSvg(SERIAL, { x: 46, y: 80, scale: 5.5, fill: C.coin }))
   for (let i = 0; i < 6; i += 1) p.push(`<rect x="${28 + i * 26}" y="18" width="14" height="16" fill="#a33f00"/>`)
   for (let i = 0; i < 12; i += 1) p.push(`<rect x="${26 + i * 13}" y="228" width="8" height="14" fill="${C.coin}"/>`)
   p.push(`</g>`)
 
-  // Wordmark
-  p.push(textSvg('CARTRIDGE', { x: 70, y: 140, scale: 11, fill: C.coin }))
-  p.push(textSvg('4663', { x: 70, y: 240, scale: 15, fill: C.magenta }))
+  // Wordmark. The cartridge illustration starts at x=790, so the text has
+  // 690px of runway from x=70; fitScale keeps it clear of the art.
+  p.push(textSvg(NAME, { x: 70, y: 140, scale: fitScale(NAME, 690, 11), fill: C.coin }))
+  p.push(textSvg(SERIAL, { x: 70, y: 240, scale: fitScale(SERIAL, 690, 15), fill: C.magenta }))
 
   // Pair strip
   p.push(`<rect x="70" y="350" width="620" height="58" fill="${C.acid}"/>`)
@@ -262,7 +288,7 @@ function socialCard() {
 
   // Chain strip
   p.push(`<rect x="70" y="424" width="420" height="46" fill="${C.void2}" stroke="${C.cyan}" stroke-width="3"/>`)
-  p.push(textSvg('ROBINHOOD CHAIN 4663', { x: 86, y: 438, scale: 2.6, fill: C.cyan }))
+  p.push(textSvg(`ROBINHOOD CHAIN ${SERIAL}`, { x: 86, y: 438, scale: 2.6, fill: C.cyan }))
 
   // Disclaimer
   p.push(textSvg('NOT GAMESTOP STOCK. NOT AFFILIATED.', { x: 70, y: 508, scale: 2, fill: C.paper }))

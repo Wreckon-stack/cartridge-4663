@@ -106,8 +106,25 @@ describe('defaults that keep the site honest', () => {
   })
 
   it('treats branding as provisional unless explicitly finalised', async () => {
+    // Pinned rather than inherited: this asserts the DEFAULT, so it must not
+    // depend on whether the developer has set the flag in their own .env.local.
+    vi.stubEnv('VITE_BRANDING_FINAL', '')
     const config = await loadConfig()
     expect(config.brand.brandingFinal).toBe(false)
+  })
+
+  it('honours the flag once it is explicitly set', async () => {
+    vi.stubEnv('VITE_BRANDING_FINAL', 'true')
+    const config = await loadConfig()
+    expect(config.brand.brandingFinal).toBe(true)
+  })
+
+  it('only accepts the exact string "true"', async () => {
+    for (const value of ['TRUE', 'yes', '1', 'false', 'truthy']) {
+      vi.stubEnv('VITE_BRANDING_FINAL', value)
+      const config = await loadConfig()
+      expect(config.brand.brandingFinal).toBe(false)
+    }
   })
 
   it('strips a trailing slash from the site URL so canonical tags are stable', async () => {

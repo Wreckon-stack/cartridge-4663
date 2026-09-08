@@ -11,12 +11,17 @@ import { fileURLToPath, URL } from 'node:url'
  * actually defined; this supplies the documented defaults too.
  */
 function htmlSeo(env: Record<string, string | undefined>): Plugin {
-  const name = env.VITE_PROJECT_NAME?.trim() || 'CARTRIDGE 4663'
+  const name = env.VITE_PROJECT_NAME?.trim() || 'CARTRIDGE'
   const description =
     env.VITE_PROJECT_DESCRIPTION?.trim() ||
     'A bootleg cartridge that boots a stock exchange instead of a game. Paired against the GME stock token on Robinhood Chain.'
   const siteUrl = (env.VITE_SITE_URL?.trim() || 'https://cartridge4663.example').replace(/\/$/, '')
   const title = `${name} — a cartridge that boots a stock market`
+  // Describes public/social-card.png, which is generated from the same name.
+  const ogAlt =
+    `${name} in pixel lettering beside an orange game cartridge, over a neon grid. ` +
+    'A green bar reads PAIRED WITH THE GME STOCK TOKEN, and a line below reads ' +
+    'NOT GAMESTOP STOCK. NOT AFFILIATED.'
 
   return {
     name: 'html-seo',
@@ -26,6 +31,7 @@ function htmlSeo(env: Record<string, string | undefined>): Plugin {
         .replace(/%SITE_TITLE%/g, title)
         .replace(/%SITE_DESCRIPTION%/g, description)
         .replace(/%SITE_URL%/g, siteUrl)
+        .replace(/%SITE_OG_ALT%/g, ogAlt)
     },
   }
 }

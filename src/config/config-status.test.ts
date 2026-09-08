@@ -1,4 +1,4 @@
-import { describe, expect, it } from 'vitest'
+import { describe, expect, it, vi } from 'vitest'
 import { allChecks, buildChainChecks, buildProjectChecks, getSiteStatus } from './config-status'
 import { GME_STOCK_TOKEN_ADDRESS, ROBINHOOD_CHAIN_ID } from './chain.config'
 
@@ -72,8 +72,21 @@ describe('getSiteStatus', () => {
     expect(status.mode).not.toBe('LIVE')
   })
 
-  it('marks branding as provisional until explicitly finalised', () => {
-    expect(getSiteStatus().brandingProvisional).toBe(true)
+  it('reports branding provisionality from the flag, not from ambient env', async () => {
+    // getSiteStatus reads module-level config, so the module has to be
+    // re-imported under each stubbed value for this to mean anything.
+    vi.resetModules()
+    vi.stubEnv('VITE_BRANDING_FINAL', '')
+    const provisional = await import('./config-status')
+    expect(provisional.getSiteStatus().brandingProvisional).toBe(true)
+
+    vi.resetModules()
+    vi.stubEnv('VITE_BRANDING_FINAL', 'true')
+    const finalised = await import('./config-status')
+    expect(finalised.getSiteStatus().brandingProvisional).toBe(false)
+
+    vi.resetModules()
+    vi.unstubAllEnvs()
   })
 })
 
