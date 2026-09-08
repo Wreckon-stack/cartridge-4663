@@ -23,7 +23,9 @@
     "noImplicitOverride": true,
     "isolatedModules": true,
 
-    "types": ["vite/client", "vitest/globals", "@testing-library/jest-dom"],
+    // "node" is needed because src/data/rpc-proxy.test.ts imports the Vercel
+    // function in api/, which reads process.env.
+    "types": ["vite/client", "vitest/globals", "@testing-library/jest-dom", "node"],
     "paths": { "@/*": ["./src/*"] }
   },
   "include": ["src", "vitest.setup.ts"]

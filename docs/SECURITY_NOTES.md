@@ -96,7 +96,7 @@ Content-Security-Policy: default-src 'self';
   base-uri 'self';
   form-action 'none';
   frame-ancestors 'none';
-  connect-src 'self' https://rpc.mainnet.chain.robinhood.com https://lb.drpc.live https://*.drpc.org https://*.g.alchemy.com;
+  connect-src 'self' https://rpc.mainnet.chain.robinhood.com;
   upgrade-insecure-requests
 
 X-Content-Type-Options: nosniff

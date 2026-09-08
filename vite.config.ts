@@ -1,4 +1,4 @@
-import { defineConfig, type Plugin } from 'vite'
+import { defineConfig, loadEnv, type Plugin, type ProxyOptions } from 'vite'
 import react from '@vitejs/plugin-react'
 import { fileURLToPath, URL } from 'node:url'
 
@@ -36,11 +36,38 @@ function htmlSeo(env: Record<string, string | undefined>): Plugin {
   }
 }
 
+/**
+ * Development-only proxy for /api/rpc.
+ *
+ * Takes RPC_URL, which has no VITE_ prefix and so is never inlined into a
+ * bundle. Returns undefined when unset, in which case the app falls back to the
+ * public endpoint exactly as it does in production.
+ */
+function devRpcProxy(upstream: string | undefined): Record<string, ProxyOptions> | undefined {
+  if (!upstream) return undefined
+  const target = new URL(upstream)
+  return {
+    '/api/rpc': {
+      target: target.origin,
+      changeOrigin: true,
+      rewrite: () => target.pathname + target.search,
+    },
+  }
+}
+
 export default defineConfig(({ mode }) => {
   // Only VITE_* values are read here; nothing else from the shell reaches the
   // client bundle.
   const env = process.env as Record<string, string | undefined>
-  void mode
+
+  /*
+   * Loaded with an empty prefix so it picks up RPC_URL from .env.local, which
+   * Vite would otherwise ignore for having no VITE_ prefix. This value is used
+   * ONLY to configure the dev proxy below — it is never passed to `define`,
+   * never reaches a plugin that touches the bundle, and so cannot leak into
+   * client code.
+   */
+  const serverOnlyEnv = loadEnv(mode, process.cwd(), '')
 
   return {
     plugins: [react(), htmlSeo(env)],
@@ -62,7 +89,17 @@ export default defineConfig(({ mode }) => {
         },
       },
     },
-    server: { port: 5173, strictPort: false },
+    server: {
+    port: 5173,
+    strictPort: false,
+    /*
+     * `vercel dev` serves api/rpc.ts for us, but plain `npm run dev` does not.
+     * Forward /api/rpc straight to the upstream provider in development so the
+     * app behaves identically either way. RPC_URL is a server-only variable and
+     * never reaches the browser bundle.
+     */
+    proxy: devRpcProxy(serverOnlyEnv.RPC_URL),
+  },
     preview: { port: 4173, strictPort: false },
   }
 })
