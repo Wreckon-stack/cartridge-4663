@@ -61,11 +61,18 @@ function rpcError(id: unknown, code: number, message: string, status = 400): Res
   return jsonResponse({ jsonrpc: '2.0', id: id ?? null, error: { code, message } }, status)
 }
 
-export default async function handler(request: Request): Promise<Response> {
-  if (request.method !== 'POST') {
-    return jsonResponse({ error: 'Method not allowed. This endpoint accepts POST only.' }, 405)
-  }
-
+/**
+ * Handles POST /api/rpc.
+ *
+ * Exported as a named HTTP method rather than a default export: Vercel treats a
+ * default export as the legacy `(req, res) => void` signature and discards the
+ * returned Response. Naming the method selects the Web fetch-style API, which
+ * is what this handler is written against.
+ *
+ * Only POST is exported, so the platform answers every other verb with 405
+ * before this code runs.
+ */
+export async function POST(request: Request): Promise<Response> {
   const upstream = process.env.RPC_URL
   if (!upstream) {
     // Misconfiguration, not a client error — and we say so without echoing config.

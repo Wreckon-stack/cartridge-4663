@@ -5,7 +5,7 @@
  * bill, so the allow-list is tested harder than most of the app.
  */
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
-import handler from '../../api/rpc'
+import { POST as handler } from '../../api/rpc'
 
 const UPSTREAM = 'https://provider.example/rpc/secret-key'
 
@@ -82,12 +82,12 @@ describe('request shape', () => {
     expect(res.status).toBe(200)
   })
 
-  it('rejects anything but POST', async () => {
-    for (const method of ['GET', 'PUT', 'DELETE', 'OPTIONS']) {
-      const res = await handler(new Request('https://site.example/api/rpc', { method }))
-      expect(res.status).toBe(405)
-    }
-    expect(fetchMock).not.toHaveBeenCalled()
+  it('exports POST only, so the platform answers other verbs with 405', async () => {
+    // Routing is the platform's job: exporting a named method means Vercel
+    // rejects GET/PUT/DELETE before this module is invoked. Asserting the
+    // module surface is the meaningful check here.
+    const module = await import('../../api/rpc')
+    expect(Object.keys(module)).toEqual(['POST'])
   })
 
   it('rejects an oversized body before parsing it', async () => {
