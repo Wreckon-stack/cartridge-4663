@@ -17,12 +17,14 @@ export interface SocialLink {
   /**
    * Whether to keep rendering the control when it has no URL.
    *
-   * The distinction matters:
-   *  - A social account with no URL means the project does not have that
-   *    channel. Advertising a permanently dead TELEGRAM button would be
-   *    misleading, so it is omitted entirely.
-   *  - The trade venue always renders, disabled, because pre-launch its absence
-   *    is information: the venue exists conceptually and is not open yet.
+   * Currently false for everything: a link with no destination is omitted
+   * rather than shown disabled, because this project has no hosted trade page
+   * and a permanently dead button is worse than no button. The flag is kept
+   * because the distinction is real — if a venue is ever configured, that entry
+   * reappears automatically.
+   *
+   * The hero's primary call to action is handled separately by
+   * `src/ui/PrimaryAction.tsx`, which falls back to copying the contract.
    */
   readonly alwaysShow: boolean
 }
@@ -41,7 +43,7 @@ const ALL_LINKS: readonly SocialLink[] = [
     label: 'TRADE / LAUNCH',
     href: safeExternalUrl(links.dexOrLaunch),
     accent: 'coin',
-    alwaysShow: true,
+    alwaysShow: false,
   },
 ]
 

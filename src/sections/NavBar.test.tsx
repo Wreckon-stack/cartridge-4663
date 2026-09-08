@@ -14,10 +14,12 @@ describe('the desktop strip', () => {
     }
   })
 
-  it('disables TRADE / LAUNCH when no venue is configured, rather than linking nowhere', () => {
+  it('omits TRADE / LAUNCH entirely when no venue is configured', () => {
+    // This project has no hosted trade page, so the nav must not carry a
+    // permanently dead button. The primary call to action lives in the hero
+    // and the final section, where it falls back to copying the contract.
     renderWithProviders(<NavBar />)
-    const trade = screen.getAllByText('TRADE / LAUNCH')[0]!.closest('[aria-disabled], a')
-    expect(trade).toHaveAttribute('aria-disabled', 'true')
+    expect(screen.queryByText('TRADE / LAUNCH')).not.toBeInTheDocument()
   })
 
   it('exposes both preference controls', () => {

@@ -23,10 +23,13 @@ let fetchMock: ReturnType<typeof vi.fn>
 
 beforeEach(() => {
   vi.stubEnv('RPC_URL', UPSTREAM)
-  fetchMock = vi.fn(async () => new Response(JSON.stringify({ jsonrpc: '2.0', id: 1, result: '0x1237' }), {
-    status: 200,
-    headers: { 'content-type': 'application/json' },
-  }))
+  fetchMock = vi.fn(
+    async () =>
+      new Response(JSON.stringify({ jsonrpc: '2.0', id: 1, result: '0x1237' }), {
+        status: 200,
+        headers: { 'content-type': 'application/json' },
+      }),
+  )
   vi.stubGlobal('fetch', fetchMock)
 })
 
@@ -68,7 +71,10 @@ describe('method allow-list', () => {
   })
 
   it('rejects a missing or non-string method', async () => {
-    for (const bad of [{ jsonrpc: '2.0', id: 1 }, { jsonrpc: '2.0', id: 1, method: 42 }]) {
+    for (const bad of [
+      { jsonrpc: '2.0', id: 1 },
+      { jsonrpc: '2.0', id: 1, method: 42 },
+    ]) {
       const res = await handler(post(bad))
       expect(res.status).toBe(400)
     }

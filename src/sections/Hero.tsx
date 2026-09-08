@@ -1,10 +1,10 @@
 import { ROBINHOOD_CHAIN_ID } from '@/config/chain.config'
 import { brand } from '@/config/project.config'
-import { TRADE_LINK } from '@/config/content/socials'
 import { useMarketMetrics } from '@/data/queries'
 import { formatCompactWad, formatPriceWad } from '@/lib/format'
 import { splitWordmark, wordmarkStyle } from '@/lib/wordmark'
 import { PixelButton } from '@/ui/PixelButton'
+import { PrimaryAction } from '@/ui/PrimaryAction'
 import { StatCartridge } from '@/ui/StatCartridge'
 import styles from './Hero.module.css'
 
@@ -60,17 +60,7 @@ export function Hero() {
           </div>
 
           <div className={styles.actions}>
-            <PixelButton
-              as="a"
-              href={TRADE_LINK}
-              tone="coin"
-              size="lg"
-              attract
-              sound="coin"
-              disabledReason="No trading venue is configured yet — this project has not launched"
-            >
-              INSERT COIN
-            </PixelButton>
+            <PrimaryAction size="lg" attract />
             <PixelButton as="a" href="#gme-link" external={false} tone="ghost" size="lg" sound="select">
               SEE THE PROOF
             </PixelButton>

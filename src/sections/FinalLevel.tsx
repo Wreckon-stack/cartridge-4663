@@ -1,8 +1,9 @@
 import { brand, features, onchain } from '@/config/project.config'
-import { TRADE_LINK, SOCIAL_LINKS } from '@/config/content/socials'
+import { SOCIAL_LINKS } from '@/config/content/socials'
 import { NOT_A_SHARE } from '@/config/content/disclosures'
 import { ContractCopyField } from '@/ui/ContractCopyField'
 import { PixelButton } from '@/ui/PixelButton'
+import { PrimaryAction } from '@/ui/PrimaryAction'
 import { SectionHeading } from '@/ui/SectionHeading'
 import { splitWordmark, wordmarkStyle } from '@/lib/wordmark'
 import { CoinDrop } from './CoinDrop'
@@ -63,17 +64,7 @@ export function FinalLevel() {
         </div>
 
         <div className={styles.actions}>
-          <PixelButton
-            as="a"
-            href={TRADE_LINK}
-            tone="coin"
-            size="xl"
-            attract
-            sound="coin"
-            disabledReason="No trading venue is configured yet — this project has not launched"
-          >
-            INSERT COIN
-          </PixelButton>
+          <PrimaryAction size="lg" />
           {SOCIAL_LINKS.filter((link) => link.id !== 'trade').map((link) => (
             <PixelButton
               key={link.id}

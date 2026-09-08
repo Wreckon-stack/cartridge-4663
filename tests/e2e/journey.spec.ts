@@ -128,15 +128,26 @@ test.describe('honesty guarantees', () => {
     await expect(arcade).not.toContainText(/\$\d/)
   })
 
-  test('the disabled trade control is visibly disabled, not styled as live', async ({ page }) => {
+  test('the pre-launch primary action is visibly disabled, not styled as live', async ({ page }) => {
+    // With no token deployed there is no address to copy, so COPY CONTRACT is
+    // disabled. Unlike the old TRADE control this state is temporary — it
+    // resolves itself the moment VITE_TOKEN_ADDRESS is set — but until then it
+    // must not be dressed up as an active button.
     await page.goto('/')
     await enterSite(page, 'silent')
-    const trade = page.locator('[aria-disabled="true"]', { hasText: 'INSERT COIN' }).first()
-    await expect(trade).toBeVisible()
-    const bg = await trade.evaluate((el) => getComputedStyle(el).backgroundColor)
+    const cta = page.getByRole('button', { name: /copy contract/i }).first()
+    await expect(cta).toBeVisible()
+    await expect(cta).toBeDisabled()
+    const bg = await cta.evaluate((el) => getComputedStyle(el).backgroundColor)
     // The disabled face is #3a3a4c. It must NOT be the coin yellow #ffe600.
     expect(bg).not.toBe('rgb(255, 230, 0)')
     expect(bg).toBe('rgb(58, 58, 76)')
+  })
+
+  test('no dead TRADE control is rendered when there is no venue', async ({ page }) => {
+    await page.goto('/')
+    await enterSite(page, 'silent')
+    await expect(page.getByText('TRADE / LAUNCH')).toHaveCount(0)
   })
 
   test('the GME contract is shown in full and is copyable', async ({ page }) => {

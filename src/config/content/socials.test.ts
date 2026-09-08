@@ -43,25 +43,27 @@ describe('social accounts the project does not have', () => {
   })
 })
 
-describe('the trade venue is different', () => {
-  it('always renders, even unconfigured, because its absence is information', async () => {
+describe('the trade venue', () => {
+  it('is omitted when unconfigured, like any other dead link', async () => {
+    // This project ships without a hosted trade page. A permanently disabled
+    // TRADE / LAUNCH button would be indistinguishable from a broken one, so
+    // the entry is dropped and PrimaryAction offers the contract instead.
     const { SOCIAL_LINKS } = await loadSocials({
       VITE_OFFICIAL_X_URL: '',
       VITE_OFFICIAL_TELEGRAM_URL: '',
       VITE_DEX_OR_LAUNCH_URL: '',
     })
-    const trade = SOCIAL_LINKS.find((l) => l.id === 'trade')
-    expect(trade).toBeDefined()
-    expect(trade?.href).toBeNull()
+    expect(ids(SOCIAL_LINKS)).toEqual([])
   })
 
-  it('is the only entry when nothing at all is configured', async () => {
-    const { SOCIAL_LINKS } = await loadSocials({
+  it('reappears if a venue is ever configured', async () => {
+    const { SOCIAL_LINKS, TRADE_LINK } = await loadSocials({
       VITE_OFFICIAL_X_URL: '',
       VITE_OFFICIAL_TELEGRAM_URL: '',
-      VITE_DEX_OR_LAUNCH_URL: '',
+      VITE_DEX_OR_LAUNCH_URL: 'https://example.com/token/0xabc',
     })
     expect(ids(SOCIAL_LINKS)).toEqual(['trade'])
+    expect(TRADE_LINK).toBe('https://example.com/token/0xabc')
   })
 })
 

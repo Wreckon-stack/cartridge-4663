@@ -107,16 +107,16 @@ export function NavBar() {
         </nav>
 
         <div className={styles.controls}>
-          <PixelButton
-            as="a"
-            href={TRADE_LINK}
-            tone="coin"
-            size="sm"
-            sound="coin"
-            disabledReason="No trading venue is configured yet"
-          >
-            TRADE / LAUNCH
-          </PixelButton>
+          {/*
+            Only shown when a venue is actually configured. With none, the nav
+            would otherwise carry a permanently dead button — and the primary
+            call to action already lives in the hero and the final section.
+          */}
+          {TRADE_LINK ? (
+            <PixelButton as="a" href={TRADE_LINK} tone="coin" size="sm" sound="coin">
+              TRADE / LAUNCH
+            </PixelButton>
+          ) : null}
           <SoundToggle />
           <EffectsToggle />
         </div>
@@ -182,17 +182,11 @@ export function NavBar() {
             </ul>
 
             <div className={styles.drawerControls}>
-              <PixelButton
-                as="a"
-                href={TRADE_LINK}
-                tone="coin"
-                size="md"
-                block
-                sound="coin"
-                disabledReason="No trading venue is configured yet"
-              >
-                TRADE / LAUNCH
-              </PixelButton>
+              {TRADE_LINK ? (
+                <PixelButton as="a" href={TRADE_LINK} tone="coin" size="md" block sound="coin">
+                  TRADE / LAUNCH
+                </PixelButton>
+              ) : null}
               <SoundToggle />
               <EffectsToggle />
             </div>
