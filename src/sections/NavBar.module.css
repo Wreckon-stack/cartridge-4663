@@ -201,3 +201,30 @@
   /* Below this the brand name gives way rather than the controls. */
   .brandText { display: none; }
 }
+
+/*
+ * Compact X link for the mobile bar.
+ *
+ * Sized to match the sound/FX toggle plates it sits beside, and given the same
+ * 44px minimum target. Cyan rather than the toggles' neutral plate so it reads
+ * as an outbound link, not a third preference switch.
+ */
+.xChip {
+  display: inline-grid;
+  place-items: center;
+  min-inline-size: var(--tap-min);
+  min-block-size: var(--tap-min);
+  padding-inline: var(--space-2);
+  background: #04121a;
+  border: 2px solid var(--cyan);
+  color: var(--cyan);
+  font-family: var(--font-pixel);
+  font-size: 12px;
+  line-height: 1;
+  text-decoration: none;
+  flex: none;
+}
+
+.xChip:hover {
+  background: #072230;
+}

@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { NAV_ITEMS } from '@/config/content/nav'
 import { brand } from '@/config/project.config'
-import { TRADE_LINK } from '@/config/content/socials'
+import { TRADE_LINK, X_LINK } from '@/config/content/socials'
 import { PixelButton } from '@/ui/PixelButton'
 import { EffectsToggle, SoundToggle } from '@/ui/Toggles'
 import { usePrefs } from '@/ui/usePrefs'
@@ -108,6 +108,16 @@ export function NavBar() {
 
         <div className={styles.controls}>
           {/*
+            The X account is the project's only outbound channel, so it gets the
+            most prominent slot in the header rather than living solely at the
+            bottom of the page. Omitted rather than disabled if unconfigured.
+          */}
+          {X_LINK ? (
+            <PixelButton as="a" href={X_LINK} tone="cyan" size="sm" sound="select">
+              OFFICIAL X ↗
+            </PixelButton>
+          ) : null}
+          {/*
             Only shown when a venue is actually configured. With none, the nav
             would otherwise carry a permanently dead button — and the primary
             call to action already lives in the hero and the final section.
@@ -134,6 +144,19 @@ export function NavBar() {
             people complain about.
           */}
           <span className={styles.mobileToggles}>
+            {/* Compact, but still above the fold on a phone. */}
+            {X_LINK ? (
+              <a
+                className={styles.xChip}
+                href={X_LINK}
+                target="_blank"
+                rel="noopener noreferrer nofollow"
+                onClick={() => play('select')}
+              >
+                <span aria-hidden="true">X</span>
+                <span className="visually-hidden">Official X account (opens in a new tab)</span>
+              </a>
+            ) : null}
             <SoundToggle className={styles.compactToggle} />
             <EffectsToggle className={styles.compactToggle} />
           </span>
@@ -182,6 +205,11 @@ export function NavBar() {
             </ul>
 
             <div className={styles.drawerControls}>
+              {X_LINK ? (
+                <PixelButton as="a" href={X_LINK} tone="cyan" size="md" block sound="select">
+                  OFFICIAL X ↗
+                </PixelButton>
+              ) : null}
               {TRADE_LINK ? (
                 <PixelButton as="a" href={TRADE_LINK} tone="coin" size="md" block sound="coin">
                   TRADE / LAUNCH

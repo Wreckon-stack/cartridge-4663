@@ -14,6 +14,19 @@ describe('the desktop strip', () => {
     }
   })
 
+  it('puts the official X link in the header, not only in the footer', () => {
+    // The X account is the project's only outbound channel, so it has to be
+    // reachable without scrolling to the bottom of a very long page.
+    renderWithProviders(<NavBar />)
+    const links = screen.getAllByRole('link', { name: /official x/i })
+    expect(links.length).toBeGreaterThan(0)
+    for (const link of links) {
+      expect(link).toHaveAttribute('href', 'https://x.com/cartridge_rh')
+      expect(link).toHaveAttribute('rel', expect.stringContaining('noopener'))
+      expect(link).toHaveAttribute('target', '_blank')
+    }
+  })
+
   it('omits TRADE / LAUNCH entirely when no venue is configured', () => {
     // This project has no hosted trade page, so the nav must not carry a
     // permanently dead button. The primary call to action lives in the hero

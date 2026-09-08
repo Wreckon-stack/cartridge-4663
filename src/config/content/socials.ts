@@ -53,3 +53,6 @@ export const SOCIAL_LINKS: readonly SocialLink[] = ALL_LINKS.filter(
 )
 
 export const TRADE_LINK = safeExternalUrl(links.dexOrLaunch)
+
+/** The official X account, for the header. Null when unconfigured. */
+export const X_LINK = safeExternalUrl(links.x)
