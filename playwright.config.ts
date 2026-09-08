@@ -59,6 +59,18 @@ export default defineConfig({
       VITE_PROJECT_NAME: 'CARTRIDGE',
       VITE_TOKEN_SYMBOL: 'CART',
       VITE_BRANDING_FINAL: 'true',
+      /*
+       * Outbound links are pinned to the real production values rather than
+       * left blank. They change what renders — a configured account shows a
+       * button, an unconfigured one is omitted — so leaving them to be
+       * inherited from .env.local made the baselines depend on the developer's
+       * local setup. Pinning them to what actually ships means the visual
+       * suite guards the real appearance, and a genuine link change correctly
+       * shows up as a snapshot diff to review.
+       */
+      VITE_OFFICIAL_X_URL: 'https://x.com/cartridge_rh',
+      VITE_OFFICIAL_TELEGRAM_URL: '',
+      VITE_DEX_OR_LAUNCH_URL: '',
     },
   },
 })
