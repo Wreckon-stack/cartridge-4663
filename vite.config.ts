@@ -15,7 +15,7 @@ function htmlSeo(env: Record<string, string | undefined>): Plugin {
   const description =
     env.VITE_PROJECT_DESCRIPTION?.trim() ||
     'A bootleg cartridge that boots a stock exchange instead of a game. Paired against the GME stock token on Robinhood Chain.'
-  const siteUrl = (env.VITE_SITE_URL?.trim() || 'https://cartridge4663.example').replace(/\/$/, '')
+  const siteUrl = (env.VITE_SITE_URL?.trim() || 'https://www.cartridgehood.xyz').replace(/\/$/, '')
   const title = `${name} — a cartridge that boots a stock market`
   // Describes public/social-card.png, which is generated from the same name.
   const ogAlt =

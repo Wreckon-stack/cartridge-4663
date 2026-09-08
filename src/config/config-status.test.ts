@@ -24,10 +24,27 @@ describe('chain checks', () => {
 })
 
 describe('project checks in the pre-launch state', () => {
-  it('reports the project token as UNCONFIGURED, not VERIFIED', () => {
-    const check = buildProjectChecks().find((c) => c.id === 'project-token')
+  it('reports the project token as UNCONFIGURED, not VERIFIED', async () => {
+    // project.config.ts reads env at module scope, so the module has to be
+    // re-imported under the stub — a static import would have captured the
+    // developer's real .env.local before beforeEach ran.
+    vi.resetModules()
+    vi.stubEnv('VITE_TOKEN_ADDRESS', '')
+    const { buildProjectChecks: fresh } = await import('./config-status')
+    const check = fresh().find((c) => c.id === 'project-token')
     expect(check?.status).toBe('UNCONFIGURED')
     expect(check?.value).toBeNull()
+  })
+
+  it('reports the project token as PENDING once an address is configured', async () => {
+    vi.resetModules()
+    vi.stubEnv('VITE_TOKEN_ADDRESS', '0xeed10aCca2EEd5d0e0080A831439F62363Ed38d6')
+    const { buildProjectChecks: fresh } = await import('./config-status')
+    const check = fresh().find((c) => c.id === 'project-token')
+    // PENDING, not VERIFIED: config shape alone cannot confirm a launch. Only
+    // the runtime chain read in launch-status.ts can do that.
+    expect(check?.status).toBe('PENDING')
+    expect(check?.value).toBe('0xeed10aCca2EEd5d0e0080A831439F62363Ed38d6')
   })
 
   it('does NOT try to judge the Pons launch from config alone', () => {

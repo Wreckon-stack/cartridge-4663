@@ -17,6 +17,17 @@ import { afterEach, beforeEach, vi } from 'vitest'
  */
 beforeEach(() => {
   vi.stubEnv('VITE_RPC_URL', 'https://rpc.test.invalid/jsonrpc')
+  /*
+   * Default every test to the UNLAUNCHED state.
+   *
+   * Once a real token address landed in .env.local, three tests asserting the
+   * pre-launch defaults started failing — the same leak as the RPC URL above.
+   * Tests that want a launched token stub this explicitly (see
+   * src/config/launch-status.test.ts), which is clearer than depending on
+   * whatever the developer happens to have configured.
+   */
+  vi.stubEnv('VITE_TOKEN_ADDRESS', '')
+  vi.stubEnv('VITE_PONS_POOL_OR_LAUNCH_ID', '')
 })
 
 afterEach(() => {

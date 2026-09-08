@@ -49,7 +49,7 @@ export const brand = {
     'A bootleg cartridge that boots a stock exchange instead of a game. Paired against the GME stock token on Robinhood Chain.',
   ),
   /** Canonical absolute URL, no trailing slash. Used for OG/canonical/sitemap. */
-  siteUrl: required(env.VITE_SITE_URL, 'https://cartridge4663.example').replace(/\/$/, ''),
+  siteUrl: required(env.VITE_SITE_URL, 'https://www.cartridgehood.xyz').replace(/\/$/, ''),
   /** Whether the operator has confirmed the branding above is final. */
   brandingFinal: optional(env.VITE_BRANDING_FINAL) === 'true',
 } as const

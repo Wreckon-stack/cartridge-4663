@@ -6,7 +6,8 @@
   "build": {
     "env": {
       "VITE_TOKEN_ADDRESS": "0xeed10aCca2EEd5d0e0080A831439F62363Ed38d6",
-      "VITE_TOKEN_SYMBOL": "CART"
+      "VITE_TOKEN_SYMBOL": "CART",
+      "VITE_SITE_URL": "https://www.cartridgehood.xyz"
     }
   },
   "headers": [
